@@ -1,0 +1,190 @@
+body {
+    min-height: 100vh;
+    margin: 0;
+    color: var(--ink);
+    background: #ffffff;
+    font-family: "Inter", Arial, sans-serif;
+    line-height: 1.55;
+}
+
+.login-page {
+    display: grid;
+    align-items: center;
+    min-height: calc(100vh - 72px);
+    padding: 64px 24px;
+    background:
+        linear-gradient(90deg, rgba(0, 59, 115, 0.9), rgba(0, 111, 201, 0.58)),
+        url("/assets/images/hero-online-payment.jpg") center/cover;
+}
+
+.login-shell {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(330px, 0.62fr);
+    gap: 44px;
+    align-items: center;
+    width: min(1180px, 100%);
+    margin: 0 auto;
+}
+
+.login-copy {
+    max-width: 680px;
+    color: #ffffff;
+}
+
+.eyebrow {
+    margin: 0 0 12px;
+    color: #b9dcff;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+h1 {
+    max-width: 720px;
+    margin: 0 0 22px;
+    font-size: clamp(2.4rem, 5vw, 4.6rem);
+    line-height: 1;
+}
+
+p {
+    margin-top: 0;
+}
+
+.login-copy > p:not(.eyebrow) {
+    max-width: 610px;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1.12rem;
+}
+
+.login-highlights {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+}
+
+.login-highlights span {
+    padding: 9px 12px;
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 6px;
+    font-size: 0.86rem;
+    font-weight: 800;
+    backdrop-filter: blur(10px);
+}
+
+.login-card {
+    display: grid;
+    gap: 12px;
+    padding: 30px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.login-card label {
+    color: #334155;
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.login-card input[type="email"],
+.login-card input[type="password"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 14px;
+    color: var(--ink);
+    background: #ffffff;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: inherit;
+    transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+
+.login-card input:focus {
+    border-color: var(--blue);
+    box-shadow: 0 0 0 4px rgba(0, 111, 201, 0.12);
+    outline: none;
+}
+
+.login-options {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 4px 0 10px;
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.remember-choice {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.login-options a {
+    color: var(--blue);
+}
+
+.login-options a:hover,
+.login-options a:focus-visible {
+    color: var(--blue-dark);
+    outline: none;
+}
+
+.login-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 0 21px;
+    color: #ffffff;
+    background: var(--blue);
+    border: 0;
+    border-radius: 6px;
+    font: inherit;
+    font-weight: 800;
+    cursor: pointer;
+    transition: transform 180ms ease, background 180ms ease;
+}
+
+.login-button:hover,
+.login-button:focus-visible {
+    background: var(--blue-dark);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+@media (max-width: 900px) {
+    .login-shell {
+        grid-template-columns: 1fr;
+    }
+
+    .login-card {
+        max-width: 520px;
+    }
+}
+
+@media (max-width: 640px) {
+    .login-page {
+        padding: 48px 16px;
+    }
+
+    .login-card {
+        padding: 24px;
+    }
+
+    .login-options {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .login-button {
+        width: 100%;
+    }
+}
