@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CentralBank | Personal Banking, Cards & Accounts</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ asset('css/layout.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
-</head>
-<body>
-    @include('partials.site-header')
+@extends('layouts.app')
 
+@section('title', config('bank.name') . ' | Personal Banking, Cards & Accounts')
+
+@push('styles')
+    <link rel="stylesheet" href="{{ asset('css/home.css') }}">
+@endpush
+
+@section('content')
     <main id="home">
         <section class="hero">
             <div class="hero-inner">
@@ -23,7 +17,7 @@
                         Open an account, request a card, transfer funds, and manage everyday banking through a secure digital experience.
                     </p>
                     <div class="hero-actions">
-                        <a class="btn btn-primary" href="#apply">Open an Account</a>
+                        <a class="btn btn-primary" href="{{ route('register') }}">Open an Account</a>
                         <a class="btn btn-secondary" href="#cards">Explore Cards</a>
                     </div>
                 </div>
@@ -51,7 +45,7 @@
                     <p>Debit Card</p>
                     <h3>CentralBank Everyday Card</h3>
                     <p>Pay, withdraw, and manage spending with a card connected to your registered account.</p>
-                    <a href="#apply">Request Card</a>
+                    <a href="{{ route('register') }}">Request Card</a>
                 </article>
                 <article class="product-card reveal">
                     <p>Savings</p>
@@ -75,7 +69,7 @@
                 <p>
                     Customers can open an account, then access balance, transaction history, transfer requests, and card services from one place.
                 </p>
-                <a class="text-link" href="#apply">Start your application</a>
+                <a class="text-link" href="{{ route('register') }}">Start your application</a>
             </div>
 
             <div class="account-panel reveal">
@@ -158,14 +152,10 @@
                 <h2>Ready to open your CentralBank account?</h2>
                 <p>Apply online, wait for approval, and begin using account, transfer, and card services after activation.</p>
                 <div class="hero-actions">
-                    <a class="btn btn-primary" href="#home">Apply Online</a>
+                    <a class="btn btn-primary" href="{{ route('register') }}">Apply Online</a>
                     <a class="btn btn-secondary" href="#support">Contact Support</a>
                 </div>
             </div>
         </section>
     </main>
-
-    @include('partials.site-footer')
-
-</body>
-</html>
+@endsection

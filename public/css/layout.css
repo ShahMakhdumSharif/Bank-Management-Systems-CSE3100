@@ -73,20 +73,31 @@ a {
     gap: 8px;
 }
 
-.nav-links a {
+.nav-links a,
+.nav-logout-form button {
     padding: 10px 13px;
     color: #334155;
+    background: transparent;
+    border: 0;
     font-size: 0.94rem;
+    font-family: inherit;
     font-weight: 700;
     border-radius: 6px;
+    cursor: pointer;
     transition: color 180ms ease, background 180ms ease;
 }
 
 .nav-links a:hover,
-.nav-links a:focus-visible {
+.nav-links a:focus-visible,
+.nav-logout-form button:hover,
+.nav-logout-form button:focus-visible {
     color: var(--blue);
     background: var(--blue-soft);
     outline: none;
+}
+
+.nav-logout-form {
+    margin: 0;
 }
 
 .nav-links .nav-action {
@@ -202,6 +213,11 @@ a {
 
     .nav-links a {
         width: 100%;
+    }
+
+    .nav-logout-form button {
+        width: 100%;
+        text-align: left;
     }
 }
 

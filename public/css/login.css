@@ -14,7 +14,7 @@ body {
     padding: 64px 24px;
     background:
         linear-gradient(90deg, rgba(0, 59, 115, 0.9), rgba(0, 111, 201, 0.58)),
-        url("/assets/images/hero-online-payment.jpg") center/cover;
+        url("/assets/images/h4.jpg") center/cover;
 }
 
 .login-shell {
@@ -92,7 +92,8 @@ p {
 }
 
 .login-card input[type="email"],
-.login-card input[type="password"] {
+.login-card input[type="password"],
+.login-card input[type="text"] {
     width: 100%;
     min-height: 48px;
     padding: 0 14px;
@@ -158,6 +159,58 @@ p {
     background: var(--blue-dark);
     transform: translateY(-2px);
     outline: none;
+}
+
+.auth-status,
+.field-error,
+.auth-switch,
+.status-copy {
+    margin: 0;
+    font-size: 0.92rem;
+    font-weight: 700;
+}
+
+.auth-status {
+    padding: 11px 12px;
+    color: #0f5132;
+    background: #d1e7dd;
+    border: 1px solid #badbcc;
+    border-radius: 6px;
+}
+
+.field-error {
+    color: #b42318;
+}
+
+.auth-switch {
+    color: var(--muted);
+    text-align: center;
+}
+
+.auth-switch a {
+    color: var(--blue);
+}
+
+.auth-switch a:hover,
+.auth-switch a:focus-visible {
+    color: var(--blue-dark);
+    outline: none;
+}
+
+.form-eyebrow {
+    color: var(--blue);
+}
+
+.status-title {
+    margin: 0;
+    color: var(--ink);
+    font-size: clamp(1.7rem, 3vw, 2.3rem);
+    line-height: 1.1;
+}
+
+.status-copy {
+    color: var(--muted);
+    line-height: 1.6;
 }
 
 @media (max-width: 900px) {
