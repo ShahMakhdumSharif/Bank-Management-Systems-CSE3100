@@ -62,4 +62,28 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function isMasterAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isEmployee(): bool
+    {
+        return $this->role === self::ROLE_EMPLOYEE;
+    }
+
+    public function isCustomer(): bool
+    {
+        return $this->role === self::ROLE_CUSTOMER;
+    }
+
+    public function roleDashboardRoute(): string
+    {
+        return match ($this->role) {
+            self::ROLE_ADMIN => 'admin.dashboard',
+            self::ROLE_EMPLOYEE => 'employee.dashboard',
+            default => 'customer.dashboard',
+        };
+    }
 }
