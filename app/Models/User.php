@@ -5,6 +5,8 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -85,5 +87,47 @@ class User extends Authenticatable
             self::ROLE_EMPLOYEE => 'employee.dashboard',
             default => 'customer.dashboard',
         };
+    }
+
+    /**
+     * @return HasMany<Account>
+     */
+    public function accounts(): HasMany
+    {
+        return $this->hasMany(Account::class, 'customer_id');
+    }
+
+    /**
+     * @return BelongsToMany<Branch>
+     */
+    public function branches(): BelongsToMany
+    {
+        return $this->belongsToMany(Branch::class)
+            ->withPivot(['position', 'assigned_at'])
+            ->withTimestamps();
+    }
+
+    /**
+     * @return HasMany<Transaction>
+     */
+    public function performedTransactions(): HasMany
+    {
+        return $this->hasMany(Transaction::class, 'performed_by');
+    }
+
+    /**
+     * @return HasMany<EmployeeAction>
+     */
+    public function employeeActions(): HasMany
+    {
+        return $this->hasMany(EmployeeAction::class, 'employee_id');
+    }
+
+    /**
+     * @return HasMany<EmployeeAction>
+     */
+    public function subjectActions(): HasMany
+    {
+        return $this->hasMany(EmployeeAction::class, 'subject_user_id');
     }
 }

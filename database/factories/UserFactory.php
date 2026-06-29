@@ -45,4 +45,31 @@ class UserFactory extends Factory
             'email_verified_at' => null,
         ]);
     }
+
+    public function masterAdmin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_ADMIN,
+            'status' => User::STATUS_APPROVED,
+            'employee_code' => 'ADM-'.fake()->unique()->numerify('####'),
+        ]);
+    }
+
+    public function employee(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_EMPLOYEE,
+            'status' => User::STATUS_APPROVED,
+            'employee_code' => 'EMP-'.fake()->unique()->numerify('####'),
+        ]);
+    }
+
+    public function approvedCustomer(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => User::ROLE_CUSTOMER,
+            'status' => User::STATUS_APPROVED,
+            'employee_code' => null,
+        ]);
+    }
 }
