@@ -29,12 +29,14 @@
                 <p class="card-kicker">Users</p>
                 <h2>Role management</h2>
                 <p>Create employees, review customers, and keep responsibilities separated across the system.</p>
+                <a class="dashboard-link" href="{{ route('admin.employees.index') }}">Manage employees</a>
             </article>
 
             <article class="dashboard-card">
                 <p class="card-kicker">Branches</p>
                 <h2>Branch control</h2>
-                <p>Branch setup and employee assignment will connect here in the next data milestone.</p>
+                <p>Create branch locations and assign approved employees to them.</p>
+                <a class="dashboard-link" href="{{ route('admin.branches.index') }}">Manage branches</a>
             </article>
 
             <article class="dashboard-card">

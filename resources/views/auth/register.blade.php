@@ -50,7 +50,7 @@
                 <label for="password_confirmation">Confirm password</label>
                 <input id="password_confirmation" name="password_confirmation" type="password" autocomplete="new-password" required>
 
-                <button class="login-button" type="submit">Register as Customer</button>
+                <button class="login-button" type="submit">Register</button>
 
                 <p class="auth-switch">
                     Already registered?

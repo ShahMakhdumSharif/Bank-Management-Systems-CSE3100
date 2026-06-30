@@ -21,8 +21,7 @@ body {
     padding: 36px;
     color: #ffffff;
     background:
-        linear-gradient(105deg, rgba(0, 59, 115, 0.94), rgba(0, 111, 201, 0.74)),
-        url("/assets/images/h2.jpg") center/cover;
+        linear-gradient(105deg, rgba(0, 59, 115, 0.94), rgba(0, 111, 201, 0.74));
     border-radius: 8px;
     box-shadow: var(--shadow);
 }
@@ -113,6 +112,25 @@ body {
     margin: 0;
     color: var(--muted);
     font-weight: 650;
+}
+
+.dashboard-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    margin-top: 18px;
+    padding: 0 14px;
+    color: #ffffff;
+    background: var(--blue);
+    border-radius: 6px;
+    font-weight: 800;
+}
+
+.dashboard-link:hover,
+.dashboard-link:focus-visible {
+    background: var(--blue-dark);
+    outline: none;
 }
 
 .dashboard-panel {

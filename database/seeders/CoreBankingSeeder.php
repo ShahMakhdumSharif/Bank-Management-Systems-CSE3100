@@ -26,9 +26,9 @@ class CoreBankingSeeder extends Seeder
         );
 
         $employee = User::updateOrCreate(
-            ['email' => 'employee@centralbank.test'],
+            ['email' => 'e1@centralbank.com'],
             [
-                'name' => 'Branch Employee',
+                'name' => 'Employee 1',
                 'phone' => '+8801722222222',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_EMPLOYEE,
@@ -38,9 +38,9 @@ class CoreBankingSeeder extends Seeder
         );
 
         $customer = User::updateOrCreate(
-            ['email' => 'customer@centralbank.test'],
+            ['email' => 'customer@centralbank.com'],
             [
-                'name' => 'Approved Customer',
+                'name' => 'Customer 1',
                 'phone' => '+8801733333333',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_CUSTOMER,

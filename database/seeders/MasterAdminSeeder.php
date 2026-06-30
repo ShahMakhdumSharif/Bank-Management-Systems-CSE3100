@@ -11,10 +11,10 @@ class MasterAdminSeeder extends Seeder
     public function run(): void
     {
         User::updateOrCreate(
-            ['email' => 'admin@centralbank.test'],
+            ['email' => 'admin@centralbank.com'],
             [
-                'name' => 'Master Admin',
-                'phone' => '+8801700000000',
+                'name' => 'Shah Makhdum Sharif',
+                'phone' => '+8801860026356',
                 'password' => Hash::make('password'),
                 'role' => User::ROLE_ADMIN,
                 'status' => User::STATUS_APPROVED,

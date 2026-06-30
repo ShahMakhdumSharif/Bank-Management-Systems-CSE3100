@@ -47,10 +47,10 @@
         <section class="dashboard-panel" aria-labelledby="customer-next-title">
             <div>
                 <p class="eyebrow">Next step</p>
-                <h2 id="customer-next-title">Wait for employee approval</h2>
+                <h2 id="customer-next-title">Wait for verification</h2>
             </div>
             <p>
-                Keep your login details safe. A bank employee will approve or reject your application in a later workflow.
+                Keep your login details safe. Bank authority will verify your application.
             </p>
         </section>
     </main>

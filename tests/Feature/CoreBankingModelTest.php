@@ -59,7 +59,7 @@ class CoreBankingModelTest extends TestCase
     {
         $this->seed(MasterAdminSeeder::class);
 
-        $admin = User::where('email', 'admin@centralbank.test')->firstOrFail();
+        $admin = User::where('email', 'admin@centralbank.com')->firstOrFail();
 
         $this->assertTrue($admin->isMasterAdmin());
         $this->assertSame(User::STATUS_APPROVED, $admin->status);
