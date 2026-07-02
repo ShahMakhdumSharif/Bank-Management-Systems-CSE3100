@@ -15,15 +15,18 @@ class AccountFactory extends Factory
     public function definition(): array
     {
         return [
-            'customer_id' => User::factory()->state([
+            'user_id' => User::factory()->state([
                 'role' => User::ROLE_CUSTOMER,
                 'status' => User::STATUS_APPROVED,
             ]),
             'branch_id' => Branch::factory(),
             'account_number' => fake()->unique()->numerify('10##########'),
-            'type' => Account::TYPE_SAVINGS,
-            'status' => Account::STATUS_ACTIVE,
+            'account_type' => Account::TYPE_SAVINGS,
             'balance' => fake()->randomFloat(2, 500, 50000),
+            'status' => Account::STATUS_ACTIVE,
+            'approved_by' => null,
+            'frozen_by' => null,
+            'approved_at' => now(),
             'freeze_reason' => null,
             'frozen_at' => null,
         ];

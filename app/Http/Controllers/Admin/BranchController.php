@@ -24,7 +24,7 @@ class BranchController extends Controller
             ->when($search !== '', function ($query) use ($search): void {
                 $query->where(function ($query) use ($search): void {
                     $query->where('name', 'like', "%{$search}%")
-                        ->orWhere('code', 'like', "%{$search}%")
+                        ->orWhere('branch_code', 'like', "%{$search}%")
                         ->orWhere('city', 'like', "%{$search}%")
                         ->orWhere('address', 'like', "%{$search}%");
                 });

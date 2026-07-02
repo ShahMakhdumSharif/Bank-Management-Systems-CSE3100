@@ -6,9 +6,9 @@
     </div>
 
     <div class="form-field">
-        <label for="code">Branch code</label>
-        <input id="code" name="code" type="text" value="{{ old('code', $branch->code) }}" required>
-        @error('code') <p class="field-error">{{ $message }}</p> @enderror
+        <label for="branch_code">Branch code</label>
+        <input id="branch_code" name="branch_code" type="text" value="{{ old('branch_code', $branch->branch_code) }}" required>
+        @error('branch_code') <p class="field-error">{{ $message }}</p> @enderror
     </div>
 
     <div class="form-field">
@@ -18,9 +18,9 @@
     </div>
 
     <div class="form-field">
-        <label for="phone">Phone</label>
-        <input id="phone" name="phone" type="text" value="{{ old('phone', $branch->phone) }}">
-        @error('phone') <p class="field-error">{{ $message }}</p> @enderror
+        <label for="country_code">Country code</label>
+        <input id="country_code" name="country_code" type="text" value="{{ old('country_code', $branch->country_code ?? 'BD') }}" required>
+        @error('country_code') <p class="field-error">{{ $message }}</p> @enderror
     </div>
 
     <div class="form-field form-wide">

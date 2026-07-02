@@ -10,17 +10,17 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
-class CoreBankingSeeder extends Seeder
+class BankManagementSystemSeeder extends Seeder
 {
     public function run(): void
     {
         $mainBranch = Branch::firstOrCreate(
-            ['code' => 'CB001'],
+            ['branch_code' => 'CB001'],
             [
                 'name' => 'Central Branch',
-                'city' => 'Dhaka',
                 'address' => '100 Motijheel Commercial Area',
-                'phone' => '+8801711111111',
+                'city' => 'Dhaka',
+                'country_code' => 'BD',
                 'is_active' => true,
             ],
         );
@@ -49,9 +49,20 @@ class CoreBankingSeeder extends Seeder
             ],
         );
 
+        User::updateOrCreate(
+            ['email' => 'pending@centralbank.com'],
+            [
+                'name' => 'Pending Customer',
+                'phone' => '+8801744444444',
+                'password' => Hash::make('password'),
+                'role' => User::ROLE_CUSTOMER,
+                'status' => User::STATUS_PENDING,
+                'employee_code' => null,
+            ],
+        );
+
         $mainBranch->employees()->syncWithoutDetaching([
             $employee->id => [
-                'position' => 'Customer Service Officer',
                 'assigned_at' => now(),
             ],
         ]);
@@ -59,38 +70,45 @@ class CoreBankingSeeder extends Seeder
         $account = Account::firstOrCreate(
             ['account_number' => '100000000001'],
             [
-                'customer_id' => $customer->id,
+                'user_id' => $customer->id,
                 'branch_id' => $mainBranch->id,
-                'type' => Account::TYPE_SAVINGS,
-                'status' => Account::STATUS_ACTIVE,
+                'account_type' => Account::TYPE_SAVINGS,
                 'balance' => 25000,
+                'status' => Account::STATUS_ACTIVE,
+                'approved_by' => $employee->id,
+                'approved_at' => now(),
             ],
         );
 
         Transaction::firstOrCreate(
-            ['transaction_number' => 'TXN0000000001'],
+            ['reference' => 'TXN0000000001'],
             [
                 'account_id' => $account->id,
-                'performed_by' => $employee->id,
-                'type' => Transaction::TYPE_DEPOSIT,
+                'type' => Transaction::TYPE_ADJUSTMENT,
                 'amount' => 25000,
+                'balance_before' => 0,
                 'balance_after' => 25000,
-                'reference' => 'OPENING-BALANCE',
+                'status' => Transaction::STATUS_COMPLETED,
+                'source' => Transaction::SOURCE_SYSTEM,
                 'description' => 'Opening balance deposit',
-                'occurred_at' => now(),
+                'handled_by' => $employee->id,
             ],
         );
 
         EmployeeAction::firstOrCreate(
             [
                 'employee_id' => $employee->id,
-                'subject_user_id' => $customer->id,
+                'subject_type' => User::class,
+                'subject_id' => $customer->id,
                 'action_type' => EmployeeAction::TYPE_CUSTOMER_APPROVED,
             ],
             [
-                'branch_id' => $mainBranch->id,
                 'description' => 'Seeded approved customer for local development.',
-                'metadata' => ['seeded' => true],
+                'metadata' => [
+                    'seeded' => true,
+                    'branch_id' => $mainBranch->id,
+                    'account_id' => $account->id,
+                ],
             ],
         );
     }

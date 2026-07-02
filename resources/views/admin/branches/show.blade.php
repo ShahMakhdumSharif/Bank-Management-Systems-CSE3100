@@ -12,7 +12,7 @@
             <div>
                 <p class="eyebrow">Branch details</p>
                 <h1>{{ $branch->name }}</h1>
-                <p>{{ $branch->code }} · {{ $branch->city }}</p>
+                <p>{{ $branch->branch_code }} · {{ $branch->city }}</p>
             </div>
             <div class="action-row">
                 <a class="button-muted" href="{{ route('admin.branches.index') }}">All Branches</a>
@@ -30,8 +30,8 @@
                     <dd>{{ $branch->address }}</dd>
                 </div>
                 <div>
-                    <dt>Phone</dt>
-                    <dd>{{ $branch->phone ?: 'Not provided' }}</dd>
+                    <dt>Country</dt>
+                    <dd>{{ $branch->country_code }}</dd>
                 </div>
                 <div>
                     <dt>Status</dt>

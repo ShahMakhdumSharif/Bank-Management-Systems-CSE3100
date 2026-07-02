@@ -22,11 +22,12 @@ class EmployeeAction extends Model
 
     protected $fillable = [
         'employee_id',
-        'subject_user_id',
-        'branch_id',
         'action_type',
+        'subject_type',
+        'subject_id',
         'description',
         'metadata',
+        'ip_address',
     ];
 
     protected function casts(): array
@@ -44,19 +45,8 @@ class EmployeeAction extends Model
         return $this->belongsTo(User::class, 'employee_id');
     }
 
-    /**
-     * @return BelongsTo<User, EmployeeAction>
-     */
-    public function subjectUser(): BelongsTo
+    public function subject()
     {
-        return $this->belongsTo(User::class, 'subject_user_id');
-    }
-
-    /**
-     * @return BelongsTo<Branch, EmployeeAction>
-     */
-    public function branch(): BelongsTo
-    {
-        return $this->belongsTo(Branch::class);
+        return $this->morphTo();
     }
 }

@@ -27,14 +27,10 @@
         <section class="dashboard-grid" aria-label="Customer overview">
             <article class="dashboard-card">
                 <p class="card-kicker">Profile</p>
-                <h2>Application submitted</h2>
-                <p>Your customer profile is stored with pending status until an employee reviews it.</p>
             </article>
 
             <article class="dashboard-card">
                 <p class="card-kicker">Account</p>
-                <h2>Account setup pending</h2>
-                <p>After approval, a banking account can be created and connected to your dashboard.</p>
             </article>
 
             <article class="dashboard-card">
@@ -44,14 +40,5 @@
             </article>
         </section>
 
-        <section class="dashboard-panel" aria-labelledby="customer-next-title">
-            <div>
-                <p class="eyebrow">Next step</p>
-                <h2 id="customer-next-title">Wait for verification</h2>
-            </div>
-            <p>
-                Keep your login details safe. Bank authority will verify your application.
-            </p>
-        </section>
     </main>
 @endsection

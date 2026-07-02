@@ -27,14 +27,11 @@
         <section class="dashboard-grid" aria-label="Employee overview">
             <article class="dashboard-card">
                 <p class="card-kicker">Approvals</p>
-                <h2>Customer queue</h2>
-                <p>Pending customers will be listed here once approval workflows are added.</p>
+                <a class="dashboard-link" href="{{ route('employee.customers.pending') }}">Review customers</a>
             </article>
 
             <article class="dashboard-card">
                 <p class="card-kicker">Accounts</p>
-                <h2>Account service</h2>
-                <p>Search, freeze, unfreeze, and inspect accounts from this area in upcoming milestones.</p>
             </article>
 
             <article class="dashboard-card">
@@ -42,16 +39,6 @@
                 <h2>Transfer review</h2>
                 <p>Transfer approval and rejection queues will connect to this dashboard later.</p>
             </article>
-        </section>
-
-        <section class="dashboard-panel" aria-labelledby="employee-focus-title">
-            <div>
-                <p class="eyebrow">Current focus</p>
-                <h2 id="employee-focus-title">Branch banking operations</h2>
-            </div>
-            <p>
-                This protected area is ready for employee-only tools while the database layer is built out.
-            </p>
         </section>
     </main>
 @endsection

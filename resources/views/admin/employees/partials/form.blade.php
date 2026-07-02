@@ -36,12 +36,6 @@
     </div>
 
     <div class="form-field">
-        <label for="branch_position">Branch position</label>
-        <input id="branch_position" name="branch_position" type="text" value="{{ old('branch_position', $employee->branches->first()?->pivot?->position) }}">
-        @error('branch_position') <p class="field-error">{{ $message }}</p> @enderror
-    </div>
-
-    <div class="form-field">
         <label for="password">Password</label>
         <input id="password" name="password" type="password" autocomplete="new-password" @if (! $employee->exists) required @endif>
         @error('password') <p class="field-error">{{ $message }}</p> @enderror
@@ -63,7 +57,7 @@
                         value="{{ $branch->id }}"
                         @checked(in_array($branch->id, old('branch_ids', $assignedBranchIds), false))
                     >
-                    {{ $branch->name }} · {{ $branch->code }}
+                    {{ $branch->name }} · {{ $branch->branch_code }}
                 </label>
             @empty
                 <p>No active branches available yet.</p>

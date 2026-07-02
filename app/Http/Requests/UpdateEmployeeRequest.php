@@ -38,7 +38,6 @@ class UpdateEmployeeRequest extends FormRequest
             'status' => ['required', Rule::in(['pending', 'approved', 'rejected'])],
             'branch_ids' => ['nullable', 'array'],
             'branch_ids.*' => ['integer', 'exists:branches,id'],
-            'branch_position' => ['nullable', 'string', 'max:120'],
         ];
     }
 }

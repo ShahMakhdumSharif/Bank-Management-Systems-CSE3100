@@ -48,7 +48,7 @@
                 @forelse ($employee->branches as $branch)
                     <li>
                         <span>{{ $branch->name }}</span>
-                        <span>{{ $branch->code }}</span>
+                        <span>{{ $branch->branch_code }}</span>
                     </li>
                 @empty
                     <li>No branches assigned.</li>

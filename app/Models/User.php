@@ -7,6 +7,7 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -26,6 +27,8 @@ class User extends Authenticatable
     public const STATUS_APPROVED = 'approved';
 
     public const STATUS_REJECTED = 'rejected';
+
+    public const STATUS_INACTIVE = 'inactive';
 
     /**
      * The attributes that are mass assignable.
@@ -94,7 +97,12 @@ class User extends Authenticatable
      */
     public function accounts(): HasMany
     {
-        return $this->hasMany(Account::class, 'customer_id');
+        return $this->hasMany(Account::class);
+    }
+
+    public function account()
+    {
+        return $this->hasOne(Account::class);
     }
 
     /**
@@ -102,8 +110,8 @@ class User extends Authenticatable
      */
     public function branches(): BelongsToMany
     {
-        return $this->belongsToMany(Branch::class)
-            ->withPivot(['position', 'assigned_at'])
+        return $this->belongsToMany(Branch::class, 'branch_employee', 'employee_id', 'branch_id')
+            ->withPivot(['assigned_at'])
             ->withTimestamps();
     }
 
@@ -112,7 +120,7 @@ class User extends Authenticatable
      */
     public function performedTransactions(): HasMany
     {
-        return $this->hasMany(Transaction::class, 'performed_by');
+        return $this->hasMany(Transaction::class, 'handled_by');
     }
 
     /**
@@ -124,10 +132,10 @@ class User extends Authenticatable
     }
 
     /**
-     * @return HasMany<EmployeeAction>
+     * @return MorphMany<EmployeeAction>
      */
-    public function subjectActions(): HasMany
+    public function subjectActions(): MorphMany
     {
-        return $this->hasMany(EmployeeAction::class, 'subject_user_id');
+        return $this->morphMany(EmployeeAction::class, 'subject');
     }
 }

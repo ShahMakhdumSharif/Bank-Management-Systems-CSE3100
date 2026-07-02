@@ -24,20 +24,24 @@ class Account extends Model
     public const STATUS_CLOSED = 'closed';
 
     protected $fillable = [
-        'customer_id',
+        'user_id',
         'branch_id',
         'account_number',
-        'type',
-        'status',
+        'account_type',
         'balance',
-        'freeze_reason',
+        'status',
+        'approved_by',
+        'frozen_by',
+        'approved_at',
         'frozen_at',
+        'freeze_reason',
     ];
 
     protected function casts(): array
     {
         return [
             'balance' => 'decimal:2',
+            'approved_at' => 'datetime',
             'frozen_at' => 'datetime',
         ];
     }
@@ -47,7 +51,23 @@ class Account extends Model
      */
     public function customer(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'customer_id');
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    /**
+     * @return BelongsTo<User, Account>
+     */
+    public function approver(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'approved_by');
+    }
+
+    /**
+     * @return BelongsTo<User, Account>
+     */
+    public function freezer(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'frozen_by');
     }
 
     /**
@@ -64,6 +84,38 @@ class Account extends Model
     public function transactions(): HasMany
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    /**
+     * @return HasMany<TransferRequest>
+     */
+    public function outgoingTransferRequests(): HasMany
+    {
+        return $this->hasMany(TransferRequest::class, 'sender_account_id');
+    }
+
+    /**
+     * @return HasMany<TransferRequest>
+     */
+    public function incomingTransferRequests(): HasMany
+    {
+        return $this->hasMany(TransferRequest::class, 'receiver_account_id');
+    }
+
+    /**
+     * @return HasMany<ATMCardRequest>
+     */
+    public function atmCardRequests(): HasMany
+    {
+        return $this->hasMany(ATMCardRequest::class);
+    }
+
+    /**
+     * @return HasMany<ATMCard>
+     */
+    public function atmCards(): HasMany
+    {
+        return $this->hasMany(ATMCard::class);
     }
 
     public function isActive(): bool

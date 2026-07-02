@@ -15,10 +15,10 @@ class Branch extends Model
 
     protected $fillable = [
         'name',
-        'code',
-        'city',
+        'branch_code',
         'address',
-        'phone',
+        'city',
+        'country_code',
         'is_active',
     ];
 
@@ -42,8 +42,8 @@ class Branch extends Model
      */
     public function employees(): BelongsToMany
     {
-        return $this->belongsToMany(User::class)
-            ->withPivot(['position', 'assigned_at'])
+        return $this->belongsToMany(User::class, 'branch_employee', 'branch_id', 'employee_id')
+            ->withPivot(['assigned_at'])
             ->withTimestamps();
     }
 }

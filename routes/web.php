@@ -29,4 +29,18 @@ Route::middleware('auth')
         Route::resource('employees', \App\Http\Controllers\Admin\EmployeeController::class);
     });
 
+Route::middleware('auth')
+    ->prefix('employee')
+    ->name('employee.')
+    ->group(function (): void {
+        Route::get('customers/pending', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'index'])
+            ->name('customers.pending');
+        Route::get('customers/{customer}', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'show'])
+            ->name('customers.show');
+        Route::post('customers/{customer}/approve', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'approve'])
+            ->name('customers.approve');
+        Route::post('customers/{customer}/reject', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'reject'])
+            ->name('customers.reject');
+    });
+
 require __DIR__.'/auth.php';

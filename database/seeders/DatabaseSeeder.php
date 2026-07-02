@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             MasterAdminSeeder::class,
-            CoreBankingSeeder::class,
+            BankManagementSystemSeeder::class,
         ]);
     }
 }

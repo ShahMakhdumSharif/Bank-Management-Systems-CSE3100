@@ -53,11 +53,11 @@ class EmployeeController extends Controller
 
     public function store(StoreEmployeeRequest $request): RedirectResponse
     {
-        $data = $request->safe()->except(['branch_ids', 'branch_position']);
+        $data = $request->safe()->except(['branch_ids']);
         $data['role'] = User::ROLE_EMPLOYEE;
 
         $employee = User::create($data);
-        $this->syncBranches($employee, $request->validated('branch_ids', []), $request->validated('branch_position'));
+        $this->syncBranches($employee, $request->validated('branch_ids', []));
 
         return redirect()
             ->route('admin.employees.show', $employee)
@@ -92,14 +92,14 @@ class EmployeeController extends Controller
     {
         $this->ensureEmployee($employee);
 
-        $data = $request->safe()->except(['branch_ids', 'branch_position']);
+        $data = $request->safe()->except(['branch_ids']);
 
         if (blank($data['password'] ?? null)) {
             unset($data['password']);
         }
 
         $employee->update($data);
-        $this->syncBranches($employee, $request->validated('branch_ids', []), $request->validated('branch_position'));
+        $this->syncBranches($employee, $request->validated('branch_ids', []));
 
         return redirect()
             ->route('admin.employees.show', $employee)
@@ -145,15 +145,14 @@ class EmployeeController extends Controller
         return Branch::query()
             ->where('is_active', true)
             ->orderBy('name')
-            ->get(['id', 'name', 'code', 'city']);
+            ->get(['id', 'name', 'branch_code', 'city']);
     }
 
-    private function syncBranches(User $employee, array $branchIds, ?string $position): void
+    private function syncBranches(User $employee, array $branchIds): void
     {
         $employee->branches()->sync(collect($branchIds)
             ->mapWithKeys(fn ($branchId) => [
                 $branchId => [
-                    'position' => $position,
                     'assigned_at' => now(),
                 ],
             ])

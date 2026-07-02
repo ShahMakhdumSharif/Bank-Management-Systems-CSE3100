@@ -17,10 +17,10 @@ class StoreBranchRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'code' => ['required', 'string', 'max:30', 'unique:branches,code'],
-            'city' => ['required', 'string', 'max:120'],
+            'branch_code' => ['required', 'string', 'max:30', 'unique:branches,branch_code'],
             'address' => ['required', 'string', 'max:500'],
-            'phone' => ['nullable', 'string', 'max:30'],
+            'city' => ['required', 'string', 'max:120'],
+            'country_code' => ['required', 'string', 'size:2'],
             'is_active' => ['required', 'boolean'],
             'employee_ids' => ['nullable', 'array'],
             'employee_ids.*' => [

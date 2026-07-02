@@ -55,15 +55,15 @@ class AdminManagementTest extends TestCase
         $response = $this->actingAs($admin)
             ->post(route('admin.branches.store'), [
                 'name' => 'Gulshan Branch',
-                'code' => 'GLS001',
+                'branch_code' => 'GLS001',
                 'city' => 'Dhaka',
                 'address' => 'Gulshan Avenue',
-                'phone' => '+8801700000001',
+                'country_code' => 'BD',
                 'is_active' => '1',
                 'employee_ids' => [$employee->id],
             ]);
 
-        $branch = Branch::where('code', 'GLS001')->firstOrFail();
+        $branch = Branch::where('branch_code', 'GLS001')->firstOrFail();
 
         $response->assertRedirect(route('admin.branches.show', $branch));
         $this->assertTrue($branch->employees()->whereKey($employee->id)->exists());
@@ -84,7 +84,6 @@ class AdminManagementTest extends TestCase
                 'password_confirmation' => 'password',
                 'status' => User::STATUS_APPROVED,
                 'branch_ids' => [$branch->id],
-                'branch_position' => 'Teller',
             ]);
 
         $employee = User::where('email', 'new.employee@example.com')->firstOrFail();
@@ -92,10 +91,9 @@ class AdminManagementTest extends TestCase
         $response->assertRedirect(route('admin.employees.show', $employee));
         $this->assertTrue($employee->isEmployee());
         $this->assertTrue($employee->branches()->whereKey($branch->id)->exists());
-        $this->assertDatabaseHas('branch_user', [
+        $this->assertDatabaseHas('branch_employee', [
             'branch_id' => $branch->id,
-            'user_id' => $employee->id,
-            'position' => 'Teller',
+            'employee_id' => $employee->id,
         ]);
     }
 

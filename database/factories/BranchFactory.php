@@ -16,10 +16,10 @@ class BranchFactory extends Factory
 
         return [
             'name' => $city.' Branch',
-            'code' => strtoupper(Str::random(3)).fake()->unique()->numberBetween(100, 999),
-            'city' => $city,
+            'branch_code' => strtoupper(Str::random(3)).fake()->unique()->numberBetween(100, 999),
             'address' => fake()->streetAddress(),
-            'phone' => fake()->phoneNumber(),
+            'city' => $city,
+            'country_code' => 'BD',
             'is_active' => true,
         ];
     }

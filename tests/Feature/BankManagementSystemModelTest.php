@@ -11,7 +11,7 @@ use Database\Seeders\MasterAdminSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CoreBankingModelTest extends TestCase
+class BankManagementSystemModelTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -22,7 +22,6 @@ class CoreBankingModelTest extends TestCase
         $customer = User::factory()->approvedCustomer()->create();
 
         $branch->employees()->attach($employee, [
-            'position' => 'Teller',
             'assigned_at' => now(),
         ]);
 
@@ -32,20 +31,22 @@ class CoreBankingModelTest extends TestCase
 
         $transaction = Transaction::factory()
             ->for($account)
-            ->for($employee, 'performer')
+            ->for($employee, 'handler')
             ->create([
-                'type' => Transaction::TYPE_DEPOSIT,
+                'type' => Transaction::TYPE_ADJUSTMENT,
                 'amount' => 1200,
+                'balance_before' => 0,
                 'balance_after' => 1200,
             ]);
 
-        $action = EmployeeAction::factory()
-            ->for($employee, 'employee')
-            ->for($customer, 'subjectUser')
-            ->for($branch)
-            ->create([
-                'action_type' => EmployeeAction::TYPE_CUSTOMER_APPROVED,
-            ]);
+        $action = EmployeeAction::create([
+            'employee_id' => $employee->id,
+            'action_type' => EmployeeAction::TYPE_CUSTOMER_APPROVED,
+            'subject_type' => User::class,
+            'subject_id' => $customer->id,
+            'description' => 'Approved customer.',
+            'metadata' => ['branch_id' => $branch->id],
+        ]);
 
         $this->assertTrue($branch->employees->contains($employee));
         $this->assertTrue($customer->accounts->contains($account));

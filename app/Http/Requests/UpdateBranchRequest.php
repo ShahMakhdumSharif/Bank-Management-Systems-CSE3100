@@ -19,15 +19,15 @@ class UpdateBranchRequest extends FormRequest
 
         return [
             'name' => ['required', 'string', 'max:255'],
-            'code' => [
+            'branch_code' => [
                 'required',
                 'string',
                 'max:30',
-                Rule::unique('branches', 'code')->ignore($branch),
+                Rule::unique('branches', 'branch_code')->ignore($branch),
             ],
-            'city' => ['required', 'string', 'max:120'],
             'address' => ['required', 'string', 'max:500'],
-            'phone' => ['nullable', 'string', 'max:30'],
+            'city' => ['required', 'string', 'max:120'],
+            'country_code' => ['required', 'string', 'size:2'],
             'is_active' => ['required', 'boolean'],
             'employee_ids' => ['nullable', 'array'],
             'employee_ids.*' => [

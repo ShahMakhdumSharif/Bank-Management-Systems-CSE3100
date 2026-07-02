@@ -27,15 +27,11 @@
         <section class="dashboard-grid" aria-label="Admin overview">
             <article class="dashboard-card">
                 <p class="card-kicker">Users</p>
-                <h2>Role management</h2>
-                <p>Create employees, review customers, and keep responsibilities separated across the system.</p>
                 <a class="dashboard-link" href="{{ route('admin.employees.index') }}">Manage employees</a>
             </article>
 
             <article class="dashboard-card">
                 <p class="card-kicker">Branches</p>
-                <h2>Branch control</h2>
-                <p>Create branch locations and assign approved employees to them.</p>
                 <a class="dashboard-link" href="{{ route('admin.branches.index') }}">Manage branches</a>
             </article>
 
@@ -44,19 +40,6 @@
                 <h2>Action visibility</h2>
                 <p>Employee actions and request history will be tracked as the workflow grows.</p>
             </article>
-        </section>
-
-        <section class="dashboard-panel" aria-labelledby="roles-title">
-            <div>
-                <p class="eyebrow">Access levels</p>
-                <h2 id="roles-title">Available banking roles</h2>
-            </div>
-
-            <div class="role-list">
-                @foreach ($roles as $role => $label)
-                    <span>{{ $label }} <small>{{ $role }}</small></span>
-                @endforeach
-            </div>
         </section>
     </main>
 @endsection

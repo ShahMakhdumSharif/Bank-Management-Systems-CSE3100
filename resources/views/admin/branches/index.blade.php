@@ -44,7 +44,7 @@
                     @forelse ($branches as $branch)
                         <tr>
                             <td>{{ $branch->name }}</td>
-                            <td>{{ $branch->code }}</td>
+                            <td>{{ $branch->branch_code }}</td>
                             <td>{{ $branch->city }}</td>
                             <td>{{ $branch->employees_count }}</td>
                             <td>{{ $branch->accounts_count }}</td>

@@ -19,22 +19,24 @@ class TransactionFactory extends Factory
 
         return [
             'account_id' => Account::factory(),
-            'performed_by' => User::factory()->state([
+            'related_account_id' => null,
+            'transfer_request_id' => null,
+            'reference' => 'TXN'.fake()->unique()->numerify('##########'),
+            'type' => fake()->randomElement([
+                Transaction::TYPE_ATM_DEPOSIT,
+                Transaction::TYPE_ATM_WITHDRAWAL,
+                Transaction::TYPE_ADJUSTMENT,
+            ]),
+            'amount' => $amount,
+            'balance_before' => $balanceAfter - $amount,
+            'balance_after' => $balanceAfter,
+            'status' => Transaction::STATUS_COMPLETED,
+            'source' => Transaction::SOURCE_EMPLOYEE,
+            'description' => fake()->sentence(),
+            'handled_by' => User::factory()->state([
                 'role' => User::ROLE_EMPLOYEE,
                 'status' => User::STATUS_APPROVED,
             ]),
-            'transaction_number' => 'TXN'.fake()->unique()->numerify('##########'),
-            'type' => fake()->randomElement([
-                Transaction::TYPE_DEPOSIT,
-                Transaction::TYPE_WITHDRAWAL,
-                Transaction::TYPE_TRANSFER_IN,
-                Transaction::TYPE_TRANSFER_OUT,
-            ]),
-            'amount' => $amount,
-            'balance_after' => $balanceAfter,
-            'reference' => fake()->optional()->bothify('REF-####??'),
-            'description' => fake()->sentence(),
-            'occurred_at' => now(),
         ];
     }
 }
