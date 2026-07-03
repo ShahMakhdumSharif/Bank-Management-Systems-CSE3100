@@ -122,6 +122,7 @@ body {
 }
 
 .search-form input,
+.search-form select,
 .form-grid input,
 .form-grid select,
 .form-grid textarea,
@@ -138,6 +139,11 @@ body {
 
 .search-form input {
     max-width: 360px;
+}
+
+.search-form select {
+    width: auto;
+    min-width: 150px;
 }
 
 .form-grid textarea {
@@ -273,6 +279,15 @@ body {
 
 .detail-list dd {
     margin: 3px 0 0;
+}
+
+.single-column {
+    grid-template-columns: 1fr;
+    margin: 18px 0;
+}
+
+.account-history {
+    margin-top: 18px;
 }
 
 .assigned-list {

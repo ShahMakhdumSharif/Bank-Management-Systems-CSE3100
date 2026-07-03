@@ -32,6 +32,7 @@
 
             <article class="dashboard-card">
                 <p class="card-kicker">Accounts</p>
+                <a class="dashboard-link" href="{{ route('employee.accounts.index') }}">Manage customer accounts</a>
             </article>
 
             <article class="dashboard-card">

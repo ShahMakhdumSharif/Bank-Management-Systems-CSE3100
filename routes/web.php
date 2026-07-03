@@ -1,7 +1,11 @@
 <?php
 
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\BranchController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\Employee\AccountManagementController;
+use App\Http\Controllers\Employee\CustomerApprovalController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -20,27 +24,36 @@ Route::middleware('auth')
     ->prefix('admin')
     ->name('admin.')
     ->group(function (): void {
-        Route::get('branches/{branch}/delete', [\App\Http\Controllers\Admin\BranchController::class, 'confirmDestroy'])
+        Route::get('branches/{branch}/delete', [BranchController::class, 'confirmDestroy'])
             ->name('branches.confirm-destroy');
-        Route::resource('branches', \App\Http\Controllers\Admin\BranchController::class);
+        Route::resource('branches', BranchController::class);
 
-        Route::get('employees/{employee}/delete', [\App\Http\Controllers\Admin\EmployeeController::class, 'confirmDestroy'])
+        Route::get('employees/{employee}/delete', [EmployeeController::class, 'confirmDestroy'])
             ->name('employees.confirm-destroy');
-        Route::resource('employees', \App\Http\Controllers\Admin\EmployeeController::class);
+        Route::resource('employees', EmployeeController::class);
     });
 
 Route::middleware('auth')
     ->prefix('employee')
     ->name('employee.')
     ->group(function (): void {
-        Route::get('customers/pending', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'index'])
+        Route::get('customers/pending', [CustomerApprovalController::class, 'index'])
             ->name('customers.pending');
-        Route::get('customers/{customer}', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'show'])
+        Route::get('customers/{customer}', [CustomerApprovalController::class, 'show'])
             ->name('customers.show');
-        Route::post('customers/{customer}/approve', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'approve'])
+        Route::post('customers/{customer}/approve', [CustomerApprovalController::class, 'approve'])
             ->name('customers.approve');
-        Route::post('customers/{customer}/reject', [\App\Http\Controllers\Employee\CustomerApprovalController::class, 'reject'])
+        Route::post('customers/{customer}/reject', [CustomerApprovalController::class, 'reject'])
             ->name('customers.reject');
+
+        Route::get('accounts', [AccountManagementController::class, 'index'])
+            ->name('accounts.index');
+        Route::get('accounts/{account}', [AccountManagementController::class, 'show'])
+            ->name('accounts.show');
+        Route::post('accounts/{account}/freeze', [AccountManagementController::class, 'freeze'])
+            ->name('accounts.freeze');
+        Route::post('accounts/{account}/unfreeze', [AccountManagementController::class, 'unfreeze'])
+            ->name('accounts.unfreeze');
     });
 
 require __DIR__.'/auth.php';

@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Account extends Model
 {
@@ -116,6 +117,14 @@ class Account extends Model
     public function atmCards(): HasMany
     {
         return $this->hasMany(ATMCard::class);
+    }
+
+    /**
+     * @return MorphMany<EmployeeAction>
+     */
+    public function subjectActions(): MorphMany
+    {
+        return $this->morphMany(EmployeeAction::class, 'subject');
     }
 
     public function isActive(): bool
