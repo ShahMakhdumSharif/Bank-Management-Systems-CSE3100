@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\User;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,12 @@ class RoleMiddleware
     {
         $user = $request->user();
 
-        abort_unless($user !== null && in_array($user->role, $roles, true), 403);
+        abort_unless(
+            $user !== null
+                && $user->status === User::STATUS_APPROVED
+                && in_array($user->role, $roles, true),
+            403,
+        );
 
         return $next($request);
     }

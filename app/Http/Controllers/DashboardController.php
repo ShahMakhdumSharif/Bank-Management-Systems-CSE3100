@@ -35,8 +35,11 @@ class DashboardController extends Controller
 
     public function customer(Request $request): View
     {
+        $user = $request->user()->load('account');
+
         return view('dashboards.customer', [
-            'user' => $request->user(),
+            'user' => $user,
+            'account' => $user->account,
         ]);
     }
 }

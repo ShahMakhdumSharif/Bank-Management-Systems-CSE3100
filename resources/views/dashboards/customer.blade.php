@@ -18,9 +18,9 @@
             </div>
 
             <div class="identity-panel" aria-label="Account status">
-                <span>Application status</span>
-                <strong>{{ ucfirst($user->status) }}</strong>
-                <small>{{ ucfirst(str_replace('_', ' ', $user->role)) }}</small>
+                <span>Bank account</span>
+                <strong>Status: {{ $account ? ucfirst($account->status) : 'Not Created' }}</strong>
+                <small>{{ $account ? ucfirst($account->account_type) . ' account' : 'Awaiting account creation' }}</small>
             </div>
         </section>
 
