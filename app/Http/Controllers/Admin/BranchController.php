@@ -15,8 +15,6 @@ class BranchController extends Controller
 {
     public function index(Request $request): View
     {
-        $this->authorizeAdmin($request);
-
         $search = trim((string) $request->query('search'));
 
         $branches = Branch::query()
@@ -39,10 +37,8 @@ class BranchController extends Controller
         ]);
     }
 
-    public function create(Request $request): View
+    public function create(): View
     {
-        $this->authorizeAdmin($request);
-
         return view('admin.branches.create', [
             'branch' => new Branch(['is_active' => true]),
             'employees' => $this->employeeOptions(),
@@ -61,10 +57,8 @@ class BranchController extends Controller
             ->with('status', 'Branch created successfully.');
     }
 
-    public function show(Request $request, Branch $branch): View
+    public function show(Branch $branch): View
     {
-        $this->authorizeAdmin($request);
-
         $branch->load(['employees' => fn ($query) => $query->orderBy('name')])
             ->loadCount(['accounts', 'employees']);
 
@@ -73,10 +67,8 @@ class BranchController extends Controller
         ]);
     }
 
-    public function edit(Request $request, Branch $branch): View
+    public function edit(Branch $branch): View
     {
-        $this->authorizeAdmin($request);
-
         return view('admin.branches.edit', [
             'branch' => $branch->load('employees'),
             'employees' => $this->employeeOptions(),
@@ -95,10 +87,8 @@ class BranchController extends Controller
             ->with('status', 'Branch updated successfully.');
     }
 
-    public function confirmDestroy(Request $request, Branch $branch): View
+    public function confirmDestroy(Branch $branch): View
     {
-        $this->authorizeAdmin($request);
-
         $branch->loadCount(['accounts', 'employees']);
 
         return view('admin.branches.confirm-destroy', [
@@ -106,10 +96,8 @@ class BranchController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, Branch $branch): RedirectResponse
+    public function destroy(Branch $branch): RedirectResponse
     {
-        $this->authorizeAdmin($request);
-
         if ($branch->accounts()->exists()) {
             return redirect()
                 ->route('admin.branches.show', $branch)
@@ -121,11 +109,6 @@ class BranchController extends Controller
         return redirect()
             ->route('admin.branches.index')
             ->with('status', 'Branch deleted successfully.');
-    }
-
-    private function authorizeAdmin(Request $request): void
-    {
-        abort_unless($request->user()?->isMasterAdmin(), 403);
     }
 
     private function employeeOptions()

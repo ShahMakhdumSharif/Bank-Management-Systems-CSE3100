@@ -19,8 +19,6 @@ class CustomerApprovalController extends Controller
 {
     public function index(Request $request): View
     {
-        $this->authorizeEmployee($request);
-
         $search = trim((string) $request->query('search'));
 
         $customers = User::query()
@@ -43,9 +41,8 @@ class CustomerApprovalController extends Controller
         ]);
     }
 
-    public function show(Request $request, User $customer): View
+    public function show(User $customer): View
     {
-        $this->authorizeEmployee($request);
         $this->ensureCustomer($customer);
 
         $customer->load(['accounts.branch', 'subjectActions.employee']);
@@ -145,11 +142,6 @@ class CustomerApprovalController extends Controller
         return redirect()
             ->route('employee.customers.show', $customer)
             ->with('status', 'Customer application rejected.');
-    }
-
-    private function authorizeEmployee(Request $request): void
-    {
-        abort_unless($request->user()?->isEmployee(), 403);
     }
 
     private function activeBranches()

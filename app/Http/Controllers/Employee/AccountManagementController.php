@@ -25,8 +25,6 @@ class AccountManagementController extends Controller
 
     public function index(Request $request): Response
     {
-        $this->authorizeEmployee($request);
-
         $search = trim((string) $request->query('search'));
         $status = (string) $request->query('status', 'all');
         $pageSize = $this->pageSize($request);
@@ -68,10 +66,8 @@ class AccountManagementController extends Controller
         return $response;
     }
 
-    public function show(Request $request, Account $account): View
+    public function show(Account $account): View
     {
-        $this->authorizeEmployee($request);
-
         $account->load(['customer', 'branch', 'freezer', 'subjectActions.employee']);
 
         return view('employee.accounts.show', [
@@ -126,8 +122,6 @@ class AccountManagementController extends Controller
 
     public function unfreeze(Request $request, Account $account): RedirectResponse
     {
-        $this->authorizeEmployee($request);
-
         $employee = $request->user();
 
         DB::transaction(function () use ($account, $employee, $request): void {
@@ -171,11 +165,6 @@ class AccountManagementController extends Controller
         return redirect()
             ->route('employee.accounts.show', $account)
             ->with('status', 'Account unfrozen successfully.');
-    }
-
-    private function authorizeEmployee(Request $request): void
-    {
-        abort_unless($request->user()?->isEmployee(), 403);
     }
 
     private function pageSize(Request $request): int

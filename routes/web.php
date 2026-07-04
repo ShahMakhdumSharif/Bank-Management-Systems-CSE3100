@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Employee\AccountManagementController;
 use App\Http\Controllers\Employee\CustomerApprovalController;
 use App\Http\Controllers\HomeController;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -14,13 +15,19 @@ Route::get('/dashboard', DashboardController::class)
     ->middleware('auth')
     ->name('dashboard');
 
-Route::middleware('auth')->group(function (): void {
-    Route::get('/admin/dashboard', [DashboardController::class, 'admin'])->name('admin.dashboard');
-    Route::get('/employee/dashboard', [DashboardController::class, 'employee'])->name('employee.dashboard');
-    Route::get('/customer/dashboard', [DashboardController::class, 'customer'])->name('customer.dashboard');
-});
+Route::get('/admin/dashboard', [DashboardController::class, 'admin'])
+    ->middleware(['auth', 'role:'.User::ROLE_ADMIN])
+    ->name('admin.dashboard');
 
-Route::middleware('auth')
+Route::get('/employee/dashboard', [DashboardController::class, 'employee'])
+    ->middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])
+    ->name('employee.dashboard');
+
+Route::get('/customer/dashboard', [DashboardController::class, 'customer'])
+    ->middleware(['auth', 'role:'.User::ROLE_CUSTOMER])
+    ->name('customer.dashboard');
+
+Route::middleware(['auth', 'role:'.User::ROLE_ADMIN])
     ->prefix('admin')
     ->name('admin.')
     ->group(function (): void {
@@ -33,7 +40,7 @@ Route::middleware('auth')
         Route::resource('employees', EmployeeController::class);
     });
 
-Route::middleware('auth')
+Route::middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])
     ->prefix('employee')
     ->name('employee.')
     ->group(function (): void {

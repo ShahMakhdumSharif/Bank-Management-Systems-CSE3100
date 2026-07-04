@@ -16,8 +16,6 @@ class DashboardController extends Controller
 
     public function admin(Request $request): View
     {
-        abort_unless($request->user()->isMasterAdmin(), 403);
-
         return view('dashboards.admin', [
             'user' => $request->user(),
             'roles' => [
@@ -30,8 +28,6 @@ class DashboardController extends Controller
 
     public function employee(Request $request): View
     {
-        abort_unless($request->user()->isEmployee(), 403);
-
         return view('dashboards.employee', [
             'user' => $request->user(),
         ]);
@@ -39,8 +35,6 @@ class DashboardController extends Controller
 
     public function customer(Request $request): View
     {
-        abort_unless($request->user()->isCustomer(), 403);
-
         return view('dashboards.customer', [
             'user' => $request->user(),
         ]);

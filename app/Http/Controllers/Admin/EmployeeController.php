@@ -15,8 +15,6 @@ class EmployeeController extends Controller
 {
     public function index(Request $request): View
     {
-        $this->authorizeAdmin($request);
-
         $search = trim((string) $request->query('search'));
 
         $employees = User::query()
@@ -40,10 +38,8 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function create(Request $request): View
+    public function create(): View
     {
-        $this->authorizeAdmin($request);
-
         return view('admin.employees.create', [
             'employee' => new User(['status' => User::STATUS_APPROVED]),
             'branches' => $this->branchOptions(),
@@ -64,9 +60,8 @@ class EmployeeController extends Controller
             ->with('status', 'Employee created successfully.');
     }
 
-    public function show(Request $request, User $employee): View
+    public function show(User $employee): View
     {
-        $this->authorizeAdmin($request);
         $this->ensureEmployee($employee);
 
         $employee->load(['branches' => fn ($query) => $query->orderBy('name')]);
@@ -76,9 +71,8 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function edit(Request $request, User $employee): View
+    public function edit(User $employee): View
     {
-        $this->authorizeAdmin($request);
         $this->ensureEmployee($employee);
 
         return view('admin.employees.edit', [
@@ -106,9 +100,8 @@ class EmployeeController extends Controller
             ->with('status', 'Employee updated successfully.');
     }
 
-    public function confirmDestroy(Request $request, User $employee): View
+    public function confirmDestroy(User $employee): View
     {
-        $this->authorizeAdmin($request);
         $this->ensureEmployee($employee);
 
         $employee->loadCount(['branches', 'employeeActions', 'performedTransactions']);
@@ -118,9 +111,8 @@ class EmployeeController extends Controller
         ]);
     }
 
-    public function destroy(Request $request, User $employee): RedirectResponse
+    public function destroy(User $employee): RedirectResponse
     {
-        $this->authorizeAdmin($request);
         $this->ensureEmployee($employee);
 
         $employee->delete();
@@ -128,11 +120,6 @@ class EmployeeController extends Controller
         return redirect()
             ->route('admin.employees.index')
             ->with('status', 'Employee deleted successfully.');
-    }
-
-    private function authorizeAdmin(Request $request): void
-    {
-        abort_unless($request->user()?->isMasterAdmin(), 403);
     }
 
     private function ensureEmployee(User $employee): void
