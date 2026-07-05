@@ -183,7 +183,9 @@ body {
 }
 
 .status-pill.inactive,
-.status-pill.rejected {
+.status-pill.rejected,
+.status-pill.cancelled,
+.status-pill.frozen {
     color: #842029;
     background: #f8d7da;
 }
@@ -191,6 +193,10 @@ body {
 .status-pill.pending {
     color: #664d03;
     background: #fff3cd;
+}
+
+.form-actions {
+    margin-top: 18px;
 }
 
 .pagination-wrap {

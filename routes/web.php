@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Customer\TransferRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Employee\AccountManagementController;
 use App\Http\Controllers\Employee\CustomerApprovalController;
@@ -26,6 +27,22 @@ Route::get('/employee/dashboard', [DashboardController::class, 'employee'])
 Route::get('/customer/dashboard', [DashboardController::class, 'customer'])
     ->middleware(['auth', 'role:'.User::ROLE_CUSTOMER])
     ->name('customer.dashboard');
+
+Route::middleware(['auth', 'role:'.User::ROLE_CUSTOMER, 'active.account'])
+    ->prefix('customer')
+    ->name('customer.')
+    ->group(function (): void {
+        Route::get('transfers', [TransferRequestController::class, 'index'])
+            ->name('transfers.index');
+        Route::get('transfers/create', [TransferRequestController::class, 'create'])
+            ->name('transfers.create');
+        Route::post('transfers/confirm', [TransferRequestController::class, 'confirm'])
+            ->name('transfers.confirm');
+        Route::post('transfers', [TransferRequestController::class, 'store'])
+            ->name('transfers.store');
+        Route::patch('transfers/{transfer}/cancel', [TransferRequestController::class, 'cancel'])
+            ->name('transfers.cancel');
+    });
 
 Route::middleware(['auth', 'role:'.User::ROLE_ADMIN])
     ->prefix('admin')

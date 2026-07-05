@@ -31,12 +31,17 @@
 
             <article class="dashboard-card">
                 <p class="card-kicker">Account</p>
+                <h2>{{ $account ? $account->account_number : 'Awaiting account' }}</h2>
+                <p>{{ $account ? 'Balance BDT ' . number_format((float) $account->balance, 2) : 'An employee will create your account after approval.' }}</p>
             </article>
 
             <article class="dashboard-card">
                 <p class="card-kicker">Transfers</p>
-                <h2>Transfer tools coming</h2>
-                <p>Transfer requests and transaction history will appear after account activation.</p>
+                <h2>Request transfer</h2>
+                <p>Submit a transfer request for employee review and track pending requests.</p>
+                @if ($account?->isActive())
+                    <a class="dashboard-link" href="{{ route('customer.transfers.index') }}">Open Transfers</a>
+                @endif
             </article>
         </section>
 
