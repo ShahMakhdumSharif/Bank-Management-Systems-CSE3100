@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Customer\AccountTransactionController;
 use App\Http\Controllers\Customer\TransferRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Employee\AccountManagementController;
@@ -32,6 +33,13 @@ Route::middleware(['auth', 'role:'.User::ROLE_CUSTOMER, 'active.account'])
     ->prefix('customer')
     ->name('customer.')
     ->group(function (): void {
+        Route::get('account/transactions', [AccountTransactionController::class, 'create'])
+            ->name('account.transactions');
+        Route::post('account/deposit', [AccountTransactionController::class, 'deposit'])
+            ->name('account.deposit');
+        Route::post('account/withdraw', [AccountTransactionController::class, 'withdraw'])
+            ->name('account.withdraw');
+
         Route::get('transfers', [TransferRequestController::class, 'index'])
             ->name('transfers.index');
         Route::get('transfers/create', [TransferRequestController::class, 'create'])

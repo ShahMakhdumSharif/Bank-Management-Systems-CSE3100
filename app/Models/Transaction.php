@@ -22,6 +22,10 @@ class Transaction extends Model
 
     public const TYPE_ADJUSTMENT = 'adjustment';
 
+    public const TYPE_CUSTOMER_DEPOSIT = 'customer_deposit';
+
+    public const TYPE_CUSTOMER_WITHDRAWAL = 'customer_withdrawal';
+
     public const STATUS_PENDING = 'pending';
 
     public const STATUS_COMPLETED = 'completed';
@@ -37,6 +41,8 @@ class Transaction extends Model
     public const SOURCE_EMPLOYEE = 'employee';
 
     public const SOURCE_SYSTEM = 'system';
+
+    public const SOURCE_CUSTOMER = 'customer';
 
     protected $fillable = [
         'account_id',

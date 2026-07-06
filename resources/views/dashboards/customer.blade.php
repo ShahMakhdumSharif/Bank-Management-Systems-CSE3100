@@ -33,6 +33,9 @@
                 <p class="card-kicker">Account</p>
                 <h2>{{ $account ? $account->account_number : 'Awaiting account' }}</h2>
                 <p>{{ $account ? 'Balance BDT ' . number_format((float) $account->balance, 2) : 'An employee will create your account after approval.' }}</p>
+                @if ($account?->isActive())
+                    <a class="dashboard-link" href="{{ route('customer.account.transactions') }}">Deposit / Withdraw</a>
+                @endif
             </article>
 
             <article class="dashboard-card">
