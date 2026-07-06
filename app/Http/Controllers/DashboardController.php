@@ -36,10 +36,19 @@ class DashboardController extends Controller
     public function customer(Request $request): View
     {
         $user = $request->user()->load('account');
+        $account = $user->account;
+        $transferRequests = $account
+            ? $account->outgoingTransferRequests()
+                ->with(['receiverAccount.customer'])
+                ->latest()
+                ->limit(5)
+                ->get()
+            : collect();
 
         return view('dashboards.customer', [
             'user' => $user,
-            'account' => $user->account,
+            'account' => $account,
+            'transferRequests' => $transferRequests,
         ]);
     }
 }

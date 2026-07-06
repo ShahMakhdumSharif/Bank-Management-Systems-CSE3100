@@ -26,25 +26,77 @@
 
         <section class="dashboard-grid" aria-label="Customer overview">
             <article class="dashboard-card">
-                <p class="card-kicker">Profile</p>
-            </article>
-
-            <article class="dashboard-card">
-                <p class="card-kicker">Account</p>
-                <h2>{{ $account ? $account->account_number : 'Awaiting account' }}</h2>
-                <p>{{ $account ? 'Balance BDT ' . number_format((float) $account->balance, 2) : 'An employee will create your account after approval.' }}</p>
-                @if ($account?->isActive())
-                    <a class="dashboard-link" href="{{ route('customer.account.transactions') }}">Deposit / Withdraw</a>
-                @endif
-            </article>
-
-            <article class="dashboard-card">
                 <p class="card-kicker">Transfers</p>
-                <h2>Request transfer</h2>
-                <p>Submit a transfer request for employee review and track pending requests.</p>
-                @if ($account?->isActive())
-                    <a class="dashboard-link" href="{{ route('customer.transfers.index') }}">Open Transfers</a>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table dashboard-table-compact">
+                        <thead>
+                            <tr>
+                                <th>Receiver</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($transferRequests as $transfer)
+                                <tr>
+                                    <td>
+                                        {{ $transfer->receiverAccount->customer->name }}<br>
+                                        <small>{{ $transfer->receiverAccount->account_number }}</small>
+                                    </td>
+                                    <td>BDT {{ number_format((float) $transfer->amount, 2) }}</td>
+                                    <td>{{ ucfirst($transfer->status) }}</td>
+                                    <td>
+                                        <a class="dashboard-link dashboard-link-small" href="{{ route('customer.transfers.index') }}">View</a>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4">No transfer requests yet.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                @if ($account)
+                    <a class="dashboard-link" href="{{ route('customer.transfers.create') }}">New Transfer</a>
                 @endif
+            </article>
+
+            <article class="dashboard-card dashboard-card-wide">
+                <p class="card-kicker">Account</p>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Account No.</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($account)
+                                <tr>
+                                    <td>{{ $account->account_number }}</td>
+                                    <td>BDT {{ number_format((float) $account->balance, 2) }}</td>
+                                    <td>{{ ucfirst($account->status) }}</td>
+                                    <td>
+                                        <div class="dashboard-actions" aria-label="Account actions">
+                                            <a class="dashboard-link" href="{{ route('customer.account.transactions') }}#deposit-form">Deposit</a>
+                                            <a class="dashboard-link dashboard-link-muted" href="{{ route('customer.account.transactions') }}#withdraw-form">Withdraw</a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td colspan="4">An employee will create your account after approval.</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
             </article>
         </section>
 

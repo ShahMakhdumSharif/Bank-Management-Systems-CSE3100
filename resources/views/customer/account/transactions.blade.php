@@ -27,7 +27,7 @@
         @enderror
 
         <section class="approval-grid">
-            <form class="management-card" method="POST" action="{{ route('customer.account.deposit') }}">
+            <form id="deposit-form" class="management-card" method="POST" action="{{ route('customer.account.deposit') }}">
                 @csrf
                 <p class="eyebrow">Deposit</p>
                 <h2>Add money</h2>
@@ -41,7 +41,7 @@
                 </div>
             </form>
 
-            <form class="management-card" method="POST" action="{{ route('customer.account.withdraw') }}">
+            <form id="withdraw-form" class="management-card" method="POST" action="{{ route('customer.account.withdraw') }}">
                 @csrf
                 <p class="eyebrow">Withdraw</p>
                 <h2>Take money out</h2>

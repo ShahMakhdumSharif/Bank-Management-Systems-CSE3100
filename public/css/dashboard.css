@@ -94,6 +94,10 @@ body {
     padding: 24px;
 }
 
+.dashboard-card-wide {
+    grid-column: span 2;
+}
+
 .dashboard-card .card-kicker,
 .dashboard-panel .eyebrow {
     color: var(--blue);
@@ -114,6 +118,45 @@ body {
     font-weight: 650;
 }
 
+.dashboard-table-wrap {
+    overflow-x: auto;
+}
+
+.dashboard-table {
+    width: 100%;
+    min-width: 560px;
+    border-collapse: collapse;
+}
+
+.dashboard-table-compact {
+    min-width: 420px;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    text-align: left;
+    vertical-align: middle;
+}
+
+.dashboard-table th {
+    color: #334155;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+}
+
+.dashboard-table td {
+    font-weight: 750;
+}
+
+.dashboard-table small {
+    color: var(--muted);
+    font-weight: 750;
+}
+
 .dashboard-link {
     display: inline-flex;
     align-items: center;
@@ -127,10 +170,36 @@ body {
     font-weight: 800;
 }
 
+.dashboard-link-small {
+    min-height: 34px;
+    padding: 0 12px;
+    font-size: 0.88rem;
+}
+
+.dashboard-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.dashboard-actions .dashboard-link {
+    margin-top: 0;
+}
+
+.dashboard-link-muted {
+    color: var(--blue);
+    background: var(--blue-soft);
+}
+
 .dashboard-link:hover,
 .dashboard-link:focus-visible {
     background: var(--blue-dark);
     outline: none;
+}
+
+.dashboard-link-muted:hover,
+.dashboard-link-muted:focus-visible {
+    color: #ffffff;
 }
 
 .dashboard-panel {
@@ -170,6 +239,10 @@ body {
     .dashboard-hero,
     .dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    .dashboard-card-wide {
+        grid-column: auto;
     }
 
     .dashboard-panel {
