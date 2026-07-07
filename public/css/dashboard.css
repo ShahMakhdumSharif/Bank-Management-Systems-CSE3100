@@ -94,8 +94,8 @@ body {
     padding: 24px;
 }
 
-.dashboard-card-wide {
-    grid-column: span 2;
+.dashboard-card-full {
+    grid-column: 1 / -1;
 }
 
 .dashboard-card .card-kicker,
@@ -241,7 +241,7 @@ body {
         grid-template-columns: 1fr;
     }
 
-    .dashboard-card-wide {
+    .dashboard-card-full {
         grid-column: auto;
     }
 

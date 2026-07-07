@@ -43,10 +43,13 @@ Route::middleware(['auth', 'role:'.User::ROLE_CUSTOMER, 'active.account'])
         Route::get('transfers', [TransferRequestController::class, 'index'])
             ->name('transfers.index');
         Route::get('transfers/create', [TransferRequestController::class, 'create'])
+            ->middleware('transfer.minimum.balance')
             ->name('transfers.create');
         Route::post('transfers/confirm', [TransferRequestController::class, 'confirm'])
+            ->middleware('transfer.minimum.balance')
             ->name('transfers.confirm');
         Route::post('transfers', [TransferRequestController::class, 'store'])
+            ->middleware('transfer.minimum.balance')
             ->name('transfers.store');
         Route::patch('transfers/{transfer}/cancel', [TransferRequestController::class, 'cancel'])
             ->name('transfers.cancel');

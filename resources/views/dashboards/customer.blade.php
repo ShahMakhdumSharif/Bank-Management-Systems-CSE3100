@@ -12,9 +12,6 @@
             <div>
                 <p class="eyebrow">Customer dashboard</p>
                 <h1 id="dashboard-title">Welcome, {{ $user->name }}.</h1>
-                <p>
-                    Your profile is ready. Banking tools will unlock as employees approve applications and connect accounts.
-                </p>
             </div>
 
             <div class="identity-panel" aria-label="Account status">
@@ -25,7 +22,7 @@
         </section>
 
         <section class="dashboard-grid" aria-label="Customer overview">
-            <article class="dashboard-card">
+            <article class="dashboard-card dashboard-card-full">
                 <p class="card-kicker">Transfers</p>
                 <div class="dashboard-table-wrap">
                     <table class="dashboard-table dashboard-table-compact">
@@ -34,7 +31,6 @@
                                 <th>Receiver</th>
                                 <th>Amount</th>
                                 <th>Status</th>
-                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -46,13 +42,10 @@
                                     </td>
                                     <td>BDT {{ number_format((float) $transfer->amount, 2) }}</td>
                                     <td>{{ ucfirst($transfer->status) }}</td>
-                                    <td>
-                                        <a class="dashboard-link dashboard-link-small" href="{{ route('customer.transfers.index') }}">View</a>
-                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="4">No transfer requests yet.</td>
+                                    <td colspan="3">No transfer requests yet.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -64,7 +57,7 @@
                 @endif
             </article>
 
-            <article class="dashboard-card dashboard-card-wide">
+            <article class="dashboard-card dashboard-card-full">
                 <p class="card-kicker">Account</p>
                 <div class="dashboard-table-wrap">
                     <table class="dashboard-table">
