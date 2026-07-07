@@ -7,6 +7,7 @@ use App\Http\Controllers\Customer\TransferRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Employee\AccountManagementController;
 use App\Http\Controllers\Employee\CustomerApprovalController;
+use App\Http\Controllers\Employee\TransferApprovalController;
 use App\Http\Controllers\HomeController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -89,6 +90,15 @@ Route::middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])
             ->name('accounts.freeze');
         Route::post('accounts/{account}/unfreeze', [AccountManagementController::class, 'unfreeze'])
             ->name('accounts.unfreeze');
+
+        Route::get('transfers', [TransferApprovalController::class, 'index'])
+            ->name('transfers.index');
+        Route::get('transfers/{transfer}', [TransferApprovalController::class, 'show'])
+            ->name('transfers.show');
+        Route::post('transfers/{transfer}/approve', [TransferApprovalController::class, 'approve'])
+            ->name('transfers.approve');
+        Route::post('transfers/{transfer}/reject', [TransferApprovalController::class, 'reject'])
+            ->name('transfers.reject');
     });
 
 require __DIR__.'/auth.php';

@@ -38,7 +38,8 @@
             <article class="dashboard-card">
                 <p class="card-kicker">Transfers</p>
                 <h2>Transfer review</h2>
-                <p>Transfer approval and rejection queues will connect to this dashboard later.</p>
+                <p>Review pending transfer requests and complete approved receiver credits.</p>
+                <a class="dashboard-link" href="{{ route('employee.transfers.index') }}">Review transfers</a>
             </article>
         </section>
     </main>

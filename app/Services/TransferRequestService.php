@@ -173,6 +173,90 @@ class TransferRequestService
         });
     }
 
+    public function approve(TransferRequest $transferRequest, int $employeeId): void
+    {
+        DB::transaction(function () use ($transferRequest, $employeeId): void {
+            $lockedTransferRequest = TransferRequest::query()
+                ->whereKey($transferRequest->id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            if ($lockedTransferRequest->status !== TransferRequest::STATUS_PENDING) {
+                throw ValidationException::withMessages([
+                    'transfer' => 'Only pending transfer requests can be approved.',
+                ]);
+            }
+
+            $accounts = Account::query()
+                ->whereIn('id', [
+                    $lockedTransferRequest->sender_account_id,
+                    $lockedTransferRequest->receiver_account_id,
+                ])
+                ->orderBy('id')
+                ->lockForUpdate()
+                ->get()
+                ->keyBy('id');
+
+            $senderAccount = $accounts->get($lockedTransferRequest->sender_account_id);
+            $receiverAccount = $accounts->get($lockedTransferRequest->receiver_account_id);
+
+            if (! $senderAccount?->isActive()) {
+                throw ValidationException::withMessages([
+                    'transfer' => 'The sender account is not active.',
+                ]);
+            }
+
+            if (! $receiverAccount?->isActive()) {
+                throw ValidationException::withMessages([
+                    'transfer' => 'The receiver account is not active.',
+                ]);
+            }
+
+            $pendingDebit = Transaction::query()
+                ->where('transfer_request_id', $lockedTransferRequest->id)
+                ->where('account_id', $senderAccount->id)
+                ->where('type', Transaction::TYPE_TRANSFER_DEBIT)
+                ->where('status', Transaction::STATUS_PENDING)
+                ->lockForUpdate()
+                ->first();
+
+            if ($pendingDebit) {
+                $pendingDebit->update([
+                    'status' => Transaction::STATUS_COMPLETED,
+                    'handled_by' => $employeeId,
+                ]);
+            } else {
+                $this->debitSenderForLegacyPendingTransfer($senderAccount, $receiverAccount, $lockedTransferRequest, $employeeId);
+            }
+
+            $receiverBalanceBefore = $this->normalizeAmount($receiverAccount->balance);
+            $receiverBalanceAfter = $this->add($receiverBalanceBefore, $lockedTransferRequest->amount);
+
+            $receiverAccount->update([
+                'balance' => $receiverBalanceAfter,
+            ]);
+
+            $this->recordTransaction(
+                $receiverAccount,
+                Transaction::TYPE_TRANSFER_CREDIT,
+                $lockedTransferRequest->amount,
+                $receiverBalanceBefore,
+                $receiverBalanceAfter,
+                $lockedTransferRequest,
+                $senderAccount,
+                'Transfer request approved and receiver credited.',
+                Transaction::STATUS_COMPLETED,
+                $employeeId,
+            );
+
+            $lockedTransferRequest->update([
+                'status' => TransferRequest::STATUS_APPROVED,
+                'handled_by' => $employeeId,
+                'processed_at' => now(),
+            ]);
+        });
+    }
+
     private function refundPendingTransfer(
         Account $senderAccount,
         TransferRequest $transferRequest,
@@ -217,6 +301,40 @@ class TransferRequestService
         );
     }
 
+    private function debitSenderForLegacyPendingTransfer(
+        Account $senderAccount,
+        Account $receiverAccount,
+        TransferRequest $transferRequest,
+        int $employeeId,
+    ): void {
+        $balanceBefore = $this->normalizeAmount($senderAccount->balance);
+
+        if ($this->toCents($transferRequest->amount) > $this->availableBalanceCents($senderAccount)) {
+            throw ValidationException::withMessages([
+                'transfer' => 'The sender account no longer has enough available balance.',
+            ]);
+        }
+
+        $balanceAfter = $this->subtract($balanceBefore, $transferRequest->amount);
+
+        $senderAccount->update([
+            'balance' => $balanceAfter,
+        ]);
+
+        $this->recordTransaction(
+            $senderAccount,
+            Transaction::TYPE_TRANSFER_DEBIT,
+            $transferRequest->amount,
+            $balanceBefore,
+            $balanceAfter,
+            $transferRequest,
+            $receiverAccount,
+            'Transfer request approved and sender debited.',
+            Transaction::STATUS_COMPLETED,
+            $employeeId,
+        );
+    }
+
     private function toCents(string|float|int $amount): int
     {
         $normalized = $this->normalizeAmount($amount);
@@ -247,6 +365,7 @@ class TransferRequestService
         Account $relatedAccount,
         string $description,
         string $status = Transaction::STATUS_COMPLETED,
+        ?int $handledBy = null,
     ): Transaction {
         return Transaction::create([
             'account_id' => $account->id,
@@ -260,6 +379,7 @@ class TransferRequestService
             'status' => $status,
             'source' => Transaction::SOURCE_TRANSFER,
             'description' => $description,
+            'handled_by' => $handledBy,
         ]);
     }
 

@@ -20,6 +20,10 @@ class EmployeeAction extends Model
 
     public const TYPE_ACCOUNT_UNFROZEN = 'account_unfrozen';
 
+    public const TYPE_TRANSFER_APPROVED = 'transfer_approved';
+
+    public const TYPE_TRANSFER_REJECTED = 'transfer_rejected';
+
     protected $fillable = [
         'employee_id',
         'action_type',
