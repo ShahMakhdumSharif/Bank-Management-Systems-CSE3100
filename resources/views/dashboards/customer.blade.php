@@ -23,41 +23,6 @@
 
         <section class="dashboard-grid" aria-label="Customer overview">
             <article class="dashboard-card dashboard-card-full">
-                <p class="card-kicker">Transfers</p>
-                <div class="dashboard-table-wrap">
-                    <table class="dashboard-table dashboard-table-compact">
-                        <thead>
-                            <tr>
-                                <th>Receiver</th>
-                                <th>Amount</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse ($transferRequests as $transfer)
-                                <tr>
-                                    <td>
-                                        {{ $transfer->receiverAccount->customer->name }}<br>
-                                        <small>{{ $transfer->receiverAccount->account_number }}</small>
-                                    </td>
-                                    <td>BDT {{ number_format((float) $transfer->amount, 2) }}</td>
-                                    <td>{{ ucfirst($transfer->status) }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3">No transfer requests yet.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-
-                @if ($account)
-                    <a class="dashboard-link" href="{{ route('customer.transfers.create') }}">New Transfer</a>
-                @endif
-            </article>
-
-            <article class="dashboard-card dashboard-card-full">
                 <p class="card-kicker">Account</p>
                 <div class="dashboard-table-wrap">
                     <table class="dashboard-table">
@@ -90,6 +55,40 @@
                         </tbody>
                     </table>
                 </div>
+            </article>
+            <article class="dashboard-card dashboard-card-full">
+                <p class="card-kicker">Transfers</p>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table dashboard-table-compact">
+                        <thead>
+                            <tr>
+                                <th>Receiver</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($transferRequests as $transfer)
+                                <tr>
+                                    <td>
+                                        {{ $transfer->receiverAccount->customer->name }}<br>
+                                        <small>{{ $transfer->receiverAccount->account_number }}</small>
+                                    </td>
+                                    <td>BDT {{ number_format((float) $transfer->amount, 2) }}</td>
+                                    <td>{{ ucfirst($transfer->status) }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3">No transfer requests yet.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                @if ($account)
+                    <a class="dashboard-link" href="{{ route('customer.transfers.create') }}">New Transfer</a>
+                @endif
             </article>
 
             <article class="dashboard-card dashboard-card-full">
