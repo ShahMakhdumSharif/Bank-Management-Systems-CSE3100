@@ -3,9 +3,11 @@
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Customer\AccountTransactionController;
+use App\Http\Controllers\Customer\ATMCardRequestController;
 use App\Http\Controllers\Customer\TransferRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Employee\AccountManagementController;
+use App\Http\Controllers\Employee\ATMCardRequestQueueController;
 use App\Http\Controllers\Employee\CustomerApprovalController;
 use App\Http\Controllers\Employee\TransferApprovalController;
 use App\Http\Controllers\HomeController;
@@ -54,6 +56,11 @@ Route::middleware(['auth', 'role:'.User::ROLE_CUSTOMER, 'active.account'])
             ->name('transfers.store');
         Route::patch('transfers/{transfer}/cancel', [TransferRequestController::class, 'cancel'])
             ->name('transfers.cancel');
+
+        Route::get('card-requests', [ATMCardRequestController::class, 'index'])
+            ->name('card-requests.index');
+        Route::post('card-requests', [ATMCardRequestController::class, 'store'])
+            ->name('card-requests.store');
     });
 
 Route::middleware(['auth', 'role:'.User::ROLE_ADMIN])
@@ -99,6 +106,9 @@ Route::middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])
             ->name('transfers.approve');
         Route::post('transfers/{transfer}/reject', [TransferApprovalController::class, 'reject'])
             ->name('transfers.reject');
+
+        Route::get('card-requests', [ATMCardRequestQueueController::class, 'index'])
+            ->name('card-requests.index');
     });
 
 require __DIR__.'/auth.php';

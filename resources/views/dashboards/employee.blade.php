@@ -12,9 +12,6 @@
             <div>
                 <p class="eyebrow">Employee dashboard</p>
                 <h1 id="dashboard-title">Good day, {{ $user->name }}.</h1>
-                <p>
-                    Review customer applications, manage account requests, and support branch banking operations.
-                </p>
             </div>
 
             <div class="identity-panel" aria-label="Employee profile">
@@ -37,9 +34,12 @@
 
             <article class="dashboard-card">
                 <p class="card-kicker">Transfers</p>
-                <h2>Transfer review</h2>
-                <p>Review pending transfer requests and complete approved receiver credits.</p>
                 <a class="dashboard-link" href="{{ route('employee.transfers.index') }}">Review transfers</a>
+            </article>
+
+            <article class="dashboard-card">
+                <p class="card-kicker">ATM Cards</p>
+                <a class="dashboard-link" href="{{ route('employee.card-requests.index') }}">Review card requests</a>
             </article>
         </section>
     </main>

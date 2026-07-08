@@ -44,11 +44,19 @@ class DashboardController extends Controller
                 ->limit(5)
                 ->get()
             : collect();
+        $cardRequests = $account
+            ? $account->atmCardRequests()
+                ->with('handler')
+                ->latest()
+                ->limit(5)
+                ->get()
+            : collect();
 
         return view('dashboards.customer', [
             'user' => $user,
             'account' => $account,
             'transferRequests' => $transferRequests,
+            'cardRequests' => $cardRequests,
         ]);
     }
 }

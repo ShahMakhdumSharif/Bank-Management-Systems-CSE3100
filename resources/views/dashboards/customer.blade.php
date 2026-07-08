@@ -91,6 +91,38 @@
                     </table>
                 </div>
             </article>
+
+            <article class="dashboard-card dashboard-card-full">
+                <p class="card-kicker">ATM Cards</p>
+                <div class="dashboard-table-wrap">
+                    <table class="dashboard-table dashboard-table-compact">
+                        <thead>
+                            <tr>
+                                <th>Requested</th>
+                                <th>Status</th>
+                                <th>Handled By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($cardRequests as $cardRequest)
+                                <tr>
+                                    <td>{{ optional($cardRequest->requested_at)->format('M d, Y h:i A') ?: $cardRequest->created_at->format('M d, Y h:i A') }}</td>
+                                    <td>{{ ucfirst($cardRequest->status) }}</td>
+                                    <td>{{ optional($cardRequest->handler)->name ?: 'Pending' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="3">No ATM-card requests yet.</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                @if ($account)
+                    <a class="dashboard-link" href="{{ route('customer.card-requests.index') }}">Request ATM Card</a>
+                @endif
+            </article>
         </section>
 
     </main>
