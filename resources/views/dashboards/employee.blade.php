@@ -40,6 +40,7 @@
             <article class="dashboard-card">
                 <p class="card-kicker">ATM Cards</p>
                 <a class="dashboard-link" href="{{ route('employee.card-requests.index') }}">Review card requests</a>
+                <a class="dashboard-link dashboard-link-muted" href="{{ route('employee.atm-cards.index') }}">Manage issued cards</a>
             </article>
         </section>
     </main>

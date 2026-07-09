@@ -185,7 +185,8 @@ body {
 .status-pill.inactive,
 .status-pill.rejected,
 .status-pill.cancelled,
-.status-pill.frozen {
+.status-pill.frozen,
+.status-pill.blocked {
     color: #842029;
     background: #f8d7da;
 }

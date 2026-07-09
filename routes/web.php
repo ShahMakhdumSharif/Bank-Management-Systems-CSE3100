@@ -7,6 +7,7 @@ use App\Http\Controllers\Customer\ATMCardRequestController;
 use App\Http\Controllers\Customer\TransferRequestController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Employee\AccountManagementController;
+use App\Http\Controllers\Employee\ATMCardManagementController;
 use App\Http\Controllers\Employee\ATMCardRequestQueueController;
 use App\Http\Controllers\Employee\CustomerApprovalController;
 use App\Http\Controllers\Employee\TransferApprovalController;
@@ -109,6 +110,19 @@ Route::middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])
 
         Route::get('card-requests', [ATMCardRequestQueueController::class, 'index'])
             ->name('card-requests.index');
+        Route::get('card-requests/{cardRequest}', [ATMCardRequestQueueController::class, 'show'])
+            ->name('card-requests.show');
+        Route::post('card-requests/{cardRequest}/approve', [ATMCardRequestQueueController::class, 'approve'])
+            ->name('card-requests.approve');
+        Route::post('card-requests/{cardRequest}/reject', [ATMCardRequestQueueController::class, 'reject'])
+            ->name('card-requests.reject');
+
+        Route::get('atm-cards', [ATMCardManagementController::class, 'index'])
+            ->name('atm-cards.index');
+        Route::post('atm-cards/{card}/block', [ATMCardManagementController::class, 'block'])
+            ->name('atm-cards.block');
+        Route::post('atm-cards/{card}/unblock', [ATMCardManagementController::class, 'unblock'])
+            ->name('atm-cards.unblock');
     });
 
 require __DIR__.'/auth.php';

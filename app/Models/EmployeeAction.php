@@ -24,6 +24,14 @@ class EmployeeAction extends Model
 
     public const TYPE_TRANSFER_REJECTED = 'transfer_rejected';
 
+    public const TYPE_ATM_CARD_APPROVED = 'atm_card_approved';
+
+    public const TYPE_ATM_CARD_REJECTED = 'atm_card_rejected';
+
+    public const TYPE_ATM_CARD_BLOCKED = 'atm_card_blocked';
+
+    public const TYPE_ATM_CARD_UNBLOCKED = 'atm_card_unblocked';
+
     protected $fillable = [
         'employee_id',
         'action_type',

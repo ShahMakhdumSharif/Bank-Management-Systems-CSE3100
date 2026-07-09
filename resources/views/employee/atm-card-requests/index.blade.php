@@ -15,6 +15,7 @@
                 <p>Review card applications before approval and card generation in the next stage.</p>
             </div>
             <div class="action-row">
+                <a class="button-muted" href="{{ route('employee.atm-cards.index') }}">Issued Cards</a>
                 <a class="button-muted" href="{{ route('employee.dashboard') }}">Dashboard</a>
             </div>
         </section>
@@ -30,6 +31,7 @@
                         <th>Branch</th>
                         <th>Status</th>
                         <th>Requested</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -46,10 +48,13 @@
                             <td>{{ $cardRequest->account->branch->name }}</td>
                             <td><span class="status-pill {{ $cardRequest->status }}">{{ ucfirst($cardRequest->status) }}</span></td>
                             <td>{{ optional($cardRequest->requested_at)->format('M d, Y h:i A') ?: $cardRequest->created_at->format('M d, Y h:i A') }}</td>
+                            <td>
+                                <a class="button-muted" href="{{ route('employee.card-requests.show', $cardRequest) }}">Review</a>
+                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5">No pending ATM-card requests.</td>
+                            <td colspan="6">No pending ATM-card requests.</td>
                         </tr>
                     @endforelse
                 </tbody>
