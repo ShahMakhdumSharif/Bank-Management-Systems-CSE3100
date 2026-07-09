@@ -50,6 +50,6 @@ class ATMCardRequest extends Model
 
     public function atmCard(): HasOne
     {
-        return $this->hasOne(ATMCard::class);
+        return $this->hasOne(ATMCard::class, 'atm_card_request_id');
     }
 }
