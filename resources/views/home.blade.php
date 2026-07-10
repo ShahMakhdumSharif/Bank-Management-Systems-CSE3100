@@ -103,10 +103,10 @@
                     <img src="https://cdn-icons-png.flaticon.com/512/2331/2331945.png" alt="Transfer services icon">
                     <p>Transfers</p>
                 </a>
-                <article class="service-item reveal">
+                <a class="service-item reveal" href="{{ route('atm.login') }}">
                     <img src="https://cdn-icons-png.flaticon.com/512/2489/2489756.png" alt="ATM services icon">
                     <p>ATM</p>
-                </article>
+                </a>
                 <a class="service-item reveal" href="#cards">
                     <img src="https://cdn-icons-png.flaticon.com/512/633/633611.png" alt="Card services icon">
                     <p>Cards</p>

@@ -45,7 +45,7 @@ class ATMCardRequestService
                 ]);
             }
 
-            $pin = (string) random_int(1000, 9999);
+            $pin = (string) int(1234);
 
             $card = ATMCard::create([
                 'account_id' => $account->id,

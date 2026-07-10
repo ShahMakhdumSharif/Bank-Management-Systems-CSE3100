@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Middleware\ActiveAccountMiddleware;
+use App\Http\Middleware\ATMAuthenticatedMiddleware;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\TransferMinimumBalanceMiddleware;
 use Illuminate\Foundation\Application;
@@ -16,6 +17,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'active.account' => ActiveAccountMiddleware::class,
+            'atm.authenticated' => ATMAuthenticatedMiddleware::class,
             'role' => RoleMiddleware::class,
             'transfer.minimum.balance' => TransferMinimumBalanceMiddleware::class,
         ]);

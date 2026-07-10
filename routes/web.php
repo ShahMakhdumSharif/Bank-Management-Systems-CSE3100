@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BranchController;
+use App\Http\Controllers\ATM\ATMAuthenticationController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Customer\AccountTransactionController;
 use App\Http\Controllers\Customer\ATMCardRequestController;
@@ -16,6 +17,20 @@ use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+
+Route::get('/atm', [ATMAuthenticationController::class, 'create'])
+    ->name('atm.login');
+Route::post('/atm/login', [ATMAuthenticationController::class, 'store'])
+    ->name('atm.login.store');
+Route::middleware('atm.authenticated')
+    ->prefix('atm')
+    ->name('atm.')
+    ->group(function (): void {
+        Route::get('session', [ATMAuthenticationController::class, 'session'])
+            ->name('session');
+        Route::post('logout', [ATMAuthenticationController::class, 'destroy'])
+            ->name('logout');
+    });
 
 Route::get('/dashboard', DashboardController::class)
     ->middleware('auth')
