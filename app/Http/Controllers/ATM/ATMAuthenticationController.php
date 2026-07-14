@@ -8,6 +8,7 @@ use App\Services\ATMAuthenticationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class ATMAuthenticationController extends Controller
 {
@@ -32,8 +33,14 @@ class ATMAuthenticationController extends Controller
 
     public function session(Request $request): View
     {
+        $card = $request->attributes->get('atmCard');
+        $card->loadMissing(['account.customer', 'account.branch']);
+
         return view('atm.session', [
-            'card' => $request->attributes->get('atmCard'),
+            'account' => $card->account,
+            'authenticatedAt' => $this->sessionTime($request, 'atm.authenticated_at'),
+            'card' => $card,
+            'lastActivityAt' => $this->sessionTime($request, 'atm.last_activity_at'),
         ]);
     }
 
@@ -45,5 +52,12 @@ class ATMAuthenticationController extends Controller
         return redirect()
             ->route('atm.login')
             ->with('status', 'ATM session ended securely.');
+    }
+
+    private function sessionTime(Request $request, string $key): ?Carbon
+    {
+        $value = $request->session()->get($key);
+
+        return $value ? Carbon::parse($value) : null;
     }
 }

@@ -136,4 +136,12 @@ class Account extends Model
     {
         return $this->status === self::STATUS_FROZEN;
     }
+
+    public function maskedAccountNumber(): string
+    {
+        $visibleDigits = substr($this->account_number, -4);
+        $hiddenDigits = str_repeat('*', max(strlen($this->account_number) - 4, 0));
+
+        return $hiddenDigits.$visibleDigits;
+    }
 }

@@ -109,6 +109,44 @@ body {
     padding: 24px;
 }
 
+.atm-dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) repeat(2, minmax(260px, 0.7fr));
+    gap: 18px;
+}
+
+.atm-balance-panel {
+    display: flex;
+    grid-row: span 2;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    min-height: 360px;
+    padding: 30px;
+    color: #ffffff;
+    background: #0f766e;
+    border-radius: 8px;
+    box-shadow: 0 18px 34px rgba(15, 118, 110, 0.22);
+}
+
+.atm-balance-panel .eyebrow,
+.atm-balance-panel p {
+    color: rgba(255, 255, 255, 0.82);
+}
+
+.atm-balance-panel h2 {
+    margin: 14px 0 12px;
+    color: #ffffff;
+    font-size: clamp(2.2rem, 4vw, 3.8rem);
+    line-height: 1;
+}
+
+.atm-balance-panel .status-pill {
+    width: fit-content;
+    color: #064e3b;
+    background: #ccfbf1;
+}
+
 .approval-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
@@ -334,8 +372,14 @@ body {
     .form-grid,
     .detail-list,
     .checkbox-grid,
-    .approval-grid {
+    .approval-grid,
+    .atm-dashboard-grid {
         grid-template-columns: 1fr;
+    }
+
+    .atm-balance-panel {
+        grid-row: auto;
+        min-height: 280px;
     }
 
     .data-table {

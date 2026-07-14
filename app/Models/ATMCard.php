@@ -56,4 +56,11 @@ class ATMCard extends Model
     {
         return $this->belongsTo(User::class, 'issued_by');
     }
+
+    public function maskedCardNumber(): string
+    {
+        $lastFour = substr($this->card_number, -4);
+
+        return '**** **** **** '.$lastFour;
+    }
 }

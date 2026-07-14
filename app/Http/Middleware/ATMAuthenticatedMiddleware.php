@@ -17,7 +17,7 @@ class ATMAuthenticatedMiddleware
         $cardId = $request->session()->get('atm.card_id');
 
         $card = $cardId
-            ? ATMCard::query()->with('account.customer')->find($cardId)
+            ? ATMCard::query()->with(['account.customer', 'account.branch'])->find($cardId)
             : null;
 
         if (
@@ -34,6 +34,7 @@ class ATMAuthenticatedMiddleware
         }
 
         $request->attributes->set('atmCard', $card);
+        $request->session()->put('atm.last_activity_at', now()->toDateTimeString());
 
         return $next($request);
     }
