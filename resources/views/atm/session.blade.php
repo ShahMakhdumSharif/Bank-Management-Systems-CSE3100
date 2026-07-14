@@ -23,6 +23,16 @@
             </div>
         </section>
 
+        @include('admin.partials.flash')
+
+        @error('account')
+            <p class="flash-error">{{ $message }}</p>
+        @enderror
+
+        @error('card')
+            <p class="flash-error">{{ $message }}</p>
+        @enderror
+
         <section class="atm-dashboard-grid">
             <article class="atm-balance-panel">
                 <div>
@@ -86,6 +96,36 @@
                     </div>
                 </dl>
             </article>
+
+            <form id="atm-deposit-form" class="management-card atm-transaction-form" method="POST" action="{{ route('atm.deposit') }}">
+                @csrf
+                <p class="eyebrow">ATM deposit</p>
+                <h2>Add cash</h2>
+                <p>Limit BDT {{ number_format((float) config('bank.atm.deposit_limit'), 2) }} per transaction.</p>
+                <div class="form-field">
+                    <label for="deposit_amount">Amount</label>
+                    <input id="deposit_amount" name="amount" type="number" min="1" max="{{ config('bank.atm.deposit_limit') }}" step="0.01" required>
+                    @error('amount') <p class="field-error">{{ $message }}</p> @enderror
+                </div>
+                <div class="form-actions">
+                    <button class="button" type="submit">Deposit</button>
+                </div>
+            </form>
+
+            <form id="atm-withdraw-form" class="management-card atm-transaction-form" method="POST" action="{{ route('atm.withdraw') }}">
+                @csrf
+                <p class="eyebrow">ATM withdrawal</p>
+                <h2>Withdraw cash</h2>
+                <p>Limit BDT {{ number_format((float) config('bank.atm.withdrawal_limit'), 2) }} per transaction.</p>
+                <div class="form-field">
+                    <label for="withdraw_amount">Amount</label>
+                    <input id="withdraw_amount" name="amount" type="number" min="1" max="{{ config('bank.atm.withdrawal_limit') }}" step="0.01" required>
+                    @error('amount') <p class="field-error">{{ $message }}</p> @enderror
+                </div>
+                <div class="form-actions">
+                    <button class="button-danger" type="submit">Withdraw</button>
+                </div>
+            </form>
         </section>
     </main>
 @endsection

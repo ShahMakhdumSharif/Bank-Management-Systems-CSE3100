@@ -147,6 +147,16 @@ body {
     background: #ccfbf1;
 }
 
+.atm-transaction-form {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.receipt-card {
+    max-width: 760px;
+}
+
 .approval-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
