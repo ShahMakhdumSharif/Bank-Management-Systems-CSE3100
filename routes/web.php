@@ -1,8 +1,9 @@
 <?php
 
 use App\Http\Controllers\Admin\BranchController;
-use App\Http\Controllers\ATM\ATMAuthenticationController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\ATM\ATMAuthenticationController;
+use App\Http\Controllers\ATM\ATMTransactionController;
 use App\Http\Controllers\Customer\AccountTransactionController;
 use App\Http\Controllers\Customer\ATMCardRequestController;
 use App\Http\Controllers\Customer\TransferRequestController;
@@ -28,6 +29,12 @@ Route::middleware('atm.authenticated')
     ->group(function (): void {
         Route::get('session', [ATMAuthenticationController::class, 'session'])
             ->name('session');
+        Route::post('deposit', [ATMTransactionController::class, 'deposit'])
+            ->name('deposit');
+        Route::post('withdraw', [ATMTransactionController::class, 'withdraw'])
+            ->name('withdraw');
+        Route::get('transactions/{transaction}/receipt', [ATMTransactionController::class, 'receipt'])
+            ->name('receipt');
         Route::post('logout', [ATMAuthenticationController::class, 'destroy'])
             ->name('logout');
     });
