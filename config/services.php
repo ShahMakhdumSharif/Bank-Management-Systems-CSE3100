@@ -22,6 +22,25 @@ return [
         'key' => env('RESEND_API_KEY'),
     ],
 
+    'exchange_rate' => [
+        'provider' => env('EXCHANGE_RATE_PROVIDER', 'FastForex'),
+        'base_url' => env('EXCHANGE_RATE_BASE_URL', 'https://api.fastforex.io'),
+        'key' => env('EXCHANGE_RATE_API_KEY'),
+        'cache_minutes' => env('EXCHANGE_RATE_CACHE_MINUTES', 60),
+        'supported_currencies' => [
+            'BDT' => 'Bangladeshi Taka',
+            'USD' => 'United States Dollar',
+            'EUR' => 'Euro',
+            'GBP' => 'British Pound Sterling',
+            'INR' => 'Indian Rupee',
+            'CAD' => 'Canadian Dollar',
+            'AUD' => 'Australian Dollar',
+            'JPY' => 'Japanese Yen',
+            'SAR' => 'Saudi Riyal',
+            'AED' => 'United Arab Emirates Dirham',
+        ],
+    ],
+
     'ses' => [
         'key' => env('AWS_ACCESS_KEY_ID'),
         'secret' => env('AWS_SECRET_ACCESS_KEY'),
