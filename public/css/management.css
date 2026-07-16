@@ -157,6 +157,42 @@ body {
     max-width: 760px;
 }
 
+.currency-converter .form-grid {
+    grid-template-columns: 1fr;
+}
+
+.currency-result-panel {
+    display: grid;
+    align-content: start;
+    gap: 18px;
+}
+
+.currency-result-panel h2 {
+    overflow-wrap: anywhere;
+}
+
+.currency-metadata {
+    padding-top: 14px;
+    border-top: 1px solid var(--line);
+}
+
+.exchange-rate-table-card {
+    margin-bottom: 18px;
+}
+
+.section-title-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.exchange-rate-table td:first-child {
+    color: var(--blue);
+}
+
+>>>>>>> 3666682 (adding suitable js file for fastforex api)
 .approval-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
