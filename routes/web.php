@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\ATM\ATMAuthenticationController;
 use App\Http\Controllers\ATM\ATMTransactionController;
+use App\Http\Controllers\CurrencyExchangeController;
 use App\Http\Controllers\Customer\AccountTransactionController;
 use App\Http\Controllers\Customer\ATMCardRequestController;
 use App\Http\Controllers\Customer\TransferRequestController;
@@ -84,6 +85,15 @@ Route::middleware(['auth', 'role:'.User::ROLE_CUSTOMER, 'active.account'])
             ->name('card-requests.index');
         Route::post('card-requests', [ATMCardRequestController::class, 'store'])
             ->name('card-requests.store');
+
+        Route::get('currency-exchange', [CurrencyExchangeController::class, 'index'])
+            ->name('currency-exchange.index');
+        Route::get('currency-exchange/metadata', [CurrencyExchangeController::class, 'metadata'])
+            ->name('currency-exchange.metadata');
+        Route::get('currency-exchange/rates', [CurrencyExchangeController::class, 'rates'])
+            ->name('currency-exchange.rates');
+        Route::post('currency-exchange/convert', [CurrencyExchangeController::class, 'convert'])
+            ->name('currency-exchange.convert');
     });
 
 Route::middleware(['auth', 'role:'.User::ROLE_ADMIN])

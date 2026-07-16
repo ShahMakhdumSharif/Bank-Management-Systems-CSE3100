@@ -122,6 +122,15 @@
                     <a class="dashboard-link" href="{{ route('customer.card-requests.index') }}">Request ATM Card</a>
                 @endif
             </article>
+
+            @if ($account)
+                <article class="dashboard-card dashboard-card-full">
+                    <p class="card-kicker">Foreign Exchange</p>
+                    <h2>Currency converter</h2>
+                    <p>Convert BDT and supported foreign currencies through the secure backend API.</p>
+                    <a class="dashboard-link" href="{{ route('customer.currency-exchange.index') }}">Open Converter</a>
+                </article>
+            @endif
         </section>
 
     </main>

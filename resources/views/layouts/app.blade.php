@@ -16,5 +16,6 @@
     @yield('content')
 
     @include('partials.site-footer')
+    @stack('scripts')
 </body>
 </html>
