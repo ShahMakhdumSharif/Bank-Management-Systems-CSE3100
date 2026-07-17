@@ -15,6 +15,7 @@
                 <p>{{ $account->account_number }} · {{ ucfirst($account->account_type) }}</p>
             </div>
             <div class="action-row">
+                <a class="button-muted" href="{{ route('employee.transactions.index', ['search' => $account->account_number]) }}">Transactions</a>
                 <a class="button-muted" href="{{ route('employee.accounts.index') }}">Accounts</a>
                 <a class="button-muted" href="{{ route('employee.dashboard') }}">Dashboard</a>
             </div>
@@ -107,6 +108,44 @@
                     </div>
                 </form>
             @endif
+        </section>
+
+        <section class="management-card account-history">
+            <p class="eyebrow">Customer history</p>
+            <h2>Recent transactions</h2>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Reference</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th>Balance After</th>
+                        <th>Date</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($account->transactions as $transaction)
+                        <tr>
+                            <td>{{ $transaction->reference }}</td>
+                            <td>{{ $transaction->typeLabel() }}</td>
+                            <td><span class="status-pill {{ $transaction->status }}">{{ $transaction->statusLabel() }}</span></td>
+                            <td>BDT {{ number_format((float) $transaction->amount, 2) }}</td>
+                            <td>BDT {{ number_format((float) $transaction->balance_after, 2) }}</td>
+                            <td>{{ $transaction->created_at->format('M d, Y h:i A') }}</td>
+                            <td>
+                                <a class="button-muted" href="{{ route('employee.transactions.show', $transaction) }}">View</a>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="7">No transactions recorded for this account.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </section>
 
         <section class="management-card account-history">

@@ -13,6 +13,7 @@ use App\Http\Controllers\Employee\AccountManagementController;
 use App\Http\Controllers\Employee\ATMCardManagementController;
 use App\Http\Controllers\Employee\ATMCardRequestQueueController;
 use App\Http\Controllers\Employee\CustomerApprovalController;
+use App\Http\Controllers\Employee\TransactionHistoryController;
 use App\Http\Controllers\Employee\TransferApprovalController;
 use App\Http\Controllers\HomeController;
 use App\Models\User;
@@ -62,6 +63,8 @@ Route::middleware(['auth', 'role:'.User::ROLE_CUSTOMER, 'active.account'])
     ->group(function (): void {
         Route::get('account/transactions', [AccountTransactionController::class, 'create'])
             ->name('account.transactions');
+        Route::get('account/transactions/{transaction}', [AccountTransactionController::class, 'show'])
+            ->name('account.transactions.show');
         Route::post('account/deposit', [AccountTransactionController::class, 'deposit'])
             ->name('account.deposit');
         Route::post('account/withdraw', [AccountTransactionController::class, 'withdraw'])
@@ -130,6 +133,11 @@ Route::middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])
             ->name('accounts.freeze');
         Route::post('accounts/{account}/unfreeze', [AccountManagementController::class, 'unfreeze'])
             ->name('accounts.unfreeze');
+
+        Route::get('transactions', [TransactionHistoryController::class, 'index'])
+            ->name('transactions.index');
+        Route::get('transactions/{transaction}', [TransactionHistoryController::class, 'show'])
+            ->name('transactions.show');
 
         Route::get('transfers', [TransferApprovalController::class, 'index'])
             ->name('transfers.index');

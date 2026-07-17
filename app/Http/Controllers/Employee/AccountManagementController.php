@@ -68,7 +68,15 @@ class AccountManagementController extends Controller
 
     public function show(Account $account): View
     {
-        $account->load(['customer', 'branch', 'freezer', 'subjectActions.employee']);
+        $account->load([
+            'customer',
+            'branch',
+            'freezer',
+            'subjectActions.employee',
+            'transactions' => function ($query): void {
+                $query->with(['relatedAccount.customer', 'handler'])->latest()->limit(8);
+            },
+        ]);
 
         return view('employee.accounts.show', [
             'account' => $account,

@@ -42,6 +42,7 @@
                                     <td>{{ ucfirst($account->status) }}</td>
                                     <td>
                                         <div class="dashboard-actions" aria-label="Account actions">
+                                            <a class="dashboard-link" href="{{ route('customer.account.transactions') }}">History</a>
                                             <a class="dashboard-link" href="{{ route('customer.account.transactions') }}#deposit-form">Deposit</a>
                                             <a class="dashboard-link dashboard-link-muted" href="{{ route('customer.account.transactions') }}#withdraw-form">Withdraw</a>
                                         </div>

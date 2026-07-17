@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', config('bank.name') . ' | Transaction History')
+@section('title', config('bank.name') . ' | Transaction Search')
 
 @push('styles')
     <link rel="stylesheet" href="{{ asset('css/management.css') }}">
@@ -10,61 +10,22 @@
     <main class="management-page">
         <section class="management-header">
             <div>
-                <p class="eyebrow">Account activity</p>
-                <h1>Transaction history</h1>
-                <p>{{ $account->account_number }} · Balance BDT {{ number_format((float) $account->balance, 2) }}</p>
+                <p class="eyebrow">Transaction history</p>
+                <h1>Search transactions</h1>
+                <p>Find customer activity by account, customer, reference, source, status, or date.</p>
             </div>
             <div class="action-row">
-                <a class="button-muted" href="{{ route('customer.dashboard') }}">Dashboard</a>
-                <a class="button-muted" href="{{ route('customer.transfers.index') }}">Transfers</a>
+                <a class="button-muted" href="{{ route('employee.accounts.index') }}">Accounts</a>
+                <a class="button-muted" href="{{ route('employee.dashboard') }}">Dashboard</a>
             </div>
         </section>
 
         @include('admin.partials.flash')
 
-        @error('account')
-            <p class="flash-error">{{ $message }}</p>
-        @enderror
+        <section class="management-panel">
+            <form class="search-form" method="GET" action="{{ route('employee.transactions.index') }}">
+                <input name="search" type="search" value="{{ $filters['search'] }}" placeholder="Reference, customer, phone, email, or account">
 
-        <section class="approval-grid">
-            <form id="deposit-form" class="management-card" method="POST" action="{{ route('customer.account.deposit') }}">
-                @csrf
-                <p class="eyebrow">Deposit</p>
-                <h2>Add money</h2>
-                <div class="form-field">
-                    <label for="deposit_amount">Amount</label>
-                    <input id="deposit_amount" name="amount" type="number" min="1" max="999999999.99" step="0.01" required>
-                    @error('amount') <p class="field-error">{{ $message }}</p> @enderror
-                </div>
-                <div class="form-actions">
-                    <button class="button" type="submit">Deposit</button>
-                </div>
-            </form>
-
-            <form id="withdraw-form" class="management-card" method="POST" action="{{ route('customer.account.withdraw') }}">
-                @csrf
-                <p class="eyebrow">Withdraw</p>
-                <h2>Take money out</h2>
-                <div class="form-field">
-                    <label for="withdraw_amount">Amount</label>
-                    <input id="withdraw_amount" name="amount" type="number" min="1" max="999999999.99" step="0.01" required>
-                    @error('amount') <p class="field-error">{{ $message }}</p> @enderror
-                </div>
-                <div class="form-actions">
-                    <button class="button-danger" type="submit">Withdraw</button>
-                </div>
-            </form>
-        </section>
-
-        <section class="management-card account-history">
-            <div class="section-title-row">
-                <div>
-                    <p class="eyebrow">Account history</p>
-                    <h2>Transactions</h2>
-                </div>
-            </div>
-
-            <form class="search-form" method="GET" action="{{ route('customer.account.transactions') }}">
                 <select name="type" aria-label="Transaction type">
                     <option value="all" @selected($filters['type'] === 'all')>All types</option>
                     @foreach ($typeOptions as $value => $label)
@@ -86,6 +47,13 @@
                     @endforeach
                 </select>
 
+                <select name="account_status" aria-label="Account status">
+                    <option value="all" @selected($filters['account_status'] === 'all')>All account statuses</option>
+                    @foreach ($accountStatusOptions as $value => $label)
+                        <option value="{{ $value }}" @selected($filters['account_status'] === $value)>{{ $label }}</option>
+                    @endforeach
+                </select>
+
                 <input name="from" type="date" value="{{ $filters['from'] }}" aria-label="From date">
                 <input name="to" type="date" value="{{ $filters['to'] }}" aria-label="To date">
 
@@ -96,10 +64,11 @@
                 <thead>
                     <tr>
                         <th>Reference</th>
+                        <th>Customer</th>
+                        <th>Account</th>
                         <th>Type</th>
                         <th>Status</th>
                         <th>Amount</th>
-                        <th>Balance After</th>
                         <th>Date</th>
                         <th>Details</th>
                     </tr>
@@ -108,18 +77,25 @@
                     @forelse ($transactions as $transaction)
                         <tr>
                             <td>{{ $transaction->reference }}</td>
+                            <td>
+                                <strong>{{ $transaction->account->customer->name }}</strong><br>
+                                <span>{{ $transaction->account->customer->email }}</span>
+                            </td>
+                            <td>
+                                {{ $transaction->account->account_number }}<br>
+                                <span>{{ ucfirst($transaction->account->status) }} · {{ $transaction->account->branch->name }}</span>
+                            </td>
                             <td>{{ $transaction->typeLabel() }}</td>
                             <td><span class="status-pill {{ $transaction->status }}">{{ $transaction->statusLabel() }}</span></td>
                             <td>BDT {{ number_format((float) $transaction->amount, 2) }}</td>
-                            <td>BDT {{ number_format((float) $transaction->balance_after, 2) }}</td>
                             <td>{{ $transaction->created_at->format('M d, Y h:i A') }}</td>
                             <td>
-                                <a class="button-muted" href="{{ route('customer.account.transactions.show', $transaction) }}">View</a>
+                                <a class="button-muted" href="{{ route('employee.transactions.show', $transaction) }}">View</a>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="7">No account transactions found.</td>
+                            <td colspan="8">No transactions found.</td>
                         </tr>
                     @endforelse
                 </tbody>
