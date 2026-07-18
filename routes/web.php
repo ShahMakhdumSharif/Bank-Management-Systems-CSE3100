@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\BranchController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\ATM\ATMAuthenticationController;
@@ -110,6 +111,11 @@ Route::middleware(['auth', 'role:'.User::ROLE_ADMIN])
         Route::get('employees/{employee}/delete', [EmployeeController::class, 'confirmDestroy'])
             ->name('employees.confirm-destroy');
         Route::resource('employees', EmployeeController::class);
+
+        Route::get('audit-logs', [AuditLogController::class, 'index'])
+            ->name('audit-logs.index');
+        Route::get('audit-logs/{auditLog}', [AuditLogController::class, 'show'])
+            ->name('audit-logs.show');
     });
 
 Route::middleware(['auth', 'role:'.User::ROLE_EMPLOYEE])

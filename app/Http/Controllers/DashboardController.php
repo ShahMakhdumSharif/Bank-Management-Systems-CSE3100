@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Services\AdminAnalyticsService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
@@ -14,10 +15,11 @@ class DashboardController extends Controller
         return redirect()->route($request->user()->roleDashboardRoute());
     }
 
-    public function admin(Request $request): View
+    public function admin(Request $request, AdminAnalyticsService $analyticsService): View
     {
         return view('dashboards.admin', [
             'user' => $request->user(),
+            'analytics' => $analyticsService->summary(),
             'roles' => [
                 User::ROLE_ADMIN => 'Master admins',
                 User::ROLE_EMPLOYEE => 'Employees',

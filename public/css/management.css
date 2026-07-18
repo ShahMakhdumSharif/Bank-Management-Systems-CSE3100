@@ -184,6 +184,7 @@
     color: var(--blue);
 }
 
+<<<<<<< Updated upstream
 .atm-transaction-form {
     display: flex;
     flex-direction: column;
@@ -229,6 +230,8 @@
     color: var(--blue);
 }
 
+=======
+>>>>>>> Stashed changes
 .approval-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
@@ -239,6 +242,10 @@
 .search-form {
     justify-content: space-between;
     margin-bottom: 16px;
+}
+
+.audit-filter-form {
+    justify-content: flex-start;
 }
 
 .search-form input,
@@ -314,6 +321,11 @@
 .status-pill.pending {
     color: #664d03;
     background: #fff3cd;
+}
+
+.status-pill.audit-action {
+    color: #1d4ed8;
+    background: #dbeafe;
 }
 
 .form-actions {
@@ -411,6 +423,21 @@
 .single-column {
     grid-template-columns: 1fr;
     margin: 18px 0;
+}
+
+.audit-detail-card {
+    margin-top: 18px;
+}
+
+.metadata-block {
+    overflow-x: auto;
+    margin: 0;
+    padding: 12px;
+    color: #0f172a;
+    background: #f8fafc;
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    font: 0.9rem/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 .account-history {
